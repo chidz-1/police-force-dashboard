@@ -1,6 +1,18 @@
-import { Button } from "@/components/ui/button"
+import { Button } from "@/components/ui/button";
+import { getForceFriendlyLabel } from "@/utils/get-force";
+import getStopData from "@/utils/get-stop-data";
+import { checkAvailability } from "@/utils/stop-availability";
 
-export default function Page() {
+export default async function Page() {
+  const monthRange = await checkAvailability(3);
+
+  if (!monthRange.length) {
+    throw new Error("TODO: mention time range");
+  }
+
+  getStopData(monthRange);
+  console.log(getForceFriendlyLabel());
+
   return (
     <div className="flex min-h-svh p-6">
       <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
@@ -15,5 +27,5 @@ export default function Page() {
         </div>
       </div>
     </div>
-  )
+  );
 }
