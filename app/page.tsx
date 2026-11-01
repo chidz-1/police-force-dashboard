@@ -3,8 +3,7 @@ import { getForceFriendlyLabel } from "@/utils/getForce";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { OverviewPageSearchParams } from "@/features/Overview/types";
-import OverviewVisualizations from "@/features/Overview/OverviewVisualizations";
-import getStopData from "@/utils/getStopData";
+import OverviewVisualizations from "@/features/Overview/components/OverviewVisualizations";
 
 async function OverviewPage({
   searchParams,
@@ -13,7 +12,6 @@ async function OverviewPage({
 }) {
   const availableMonthRange = await getAvailability();
   const monthFilterMenuItems = getMonthFilterItems(availableMonthRange);
-  const stopData = await getStopData(availableMonthRange);
 
   return (
     <>

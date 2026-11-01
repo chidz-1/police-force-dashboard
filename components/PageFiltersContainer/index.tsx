@@ -11,7 +11,7 @@ export default function PageFiltersContainer({
   const { isPending } = useFilterChange();
 
   return (
-    <div className="flex flex-wrap gap-3 py-4 md:flex-row">
+    <div className="flex flex-wrap items-center gap-3 py-4 md:flex-row">
       <ListFilter />
       <span>Filters</span>
       {children}

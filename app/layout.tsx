@@ -7,6 +7,7 @@ import DashboardSideBar from "@/features/ApplicationSidebar/components/Sidebar";
 import { FilterChangeProvider } from "@/features/Providers/Components/FilterChangeProvider";
 import getStopData from "@/utils/getStopData";
 import { getAvailability } from "@/utils/stopAvailability";
+import StopDataProvider from "@/features/Providers/Components/StopDataProvider";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -33,6 +34,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const availableMonthRange = await getAvailability();
+  const stopData = await getStopData(availableMonthRange);
 
   return (
     <html lang="en">
@@ -41,7 +44,11 @@ export default async function RootLayout({
       >
         <AppProviders>
           <DashboardSideBar>
-            <FilterChangeProvider>{children}</FilterChangeProvider>
+            <FilterChangeProvider>
+              <StopDataProvider stopsData={stopData}>
+                {children}
+              </StopDataProvider>
+            </FilterChangeProvider>
           </DashboardSideBar>
         </AppProviders>
       </body>

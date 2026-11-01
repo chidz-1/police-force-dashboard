@@ -3,6 +3,7 @@ import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { OverviewVisualizationsProps } from "./types";
 import { OVERVIEW_FILTER_ITEMS } from "@/constants";
+import OverviewCharts from "../OverviewCharts";
 
 async function OverviewVisualizations({
   searchParams,
@@ -46,17 +47,7 @@ async function OverviewVisualizations({
           urlParamKey="ethnicity"
         />
       </PageFiltersContainer>
-      <pre>
-        {JSON.stringify(
-          {
-            date,
-            ethnicity,
-            type,
-          },
-          null,
-          3
-        )}
-      </pre>
+      <OverviewCharts filters={{ date, ethnicity, type }} />
     </>
   );
 }
