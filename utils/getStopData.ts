@@ -2,7 +2,7 @@ import { cacheLife, cacheTag } from "next/cache";
 
 import { YearMonth } from "@/types/crimes-street-dates";
 import { stopsForceResponseSchema } from "@/types/stop-and-search";
-import { getForceId } from "./get-force";
+import { getForceId } from "./getForce";
 
 export default async function getStopData(dates: YearMonth[]) {
   "use cache";

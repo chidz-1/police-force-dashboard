@@ -1,31 +1,58 @@
-import { Button } from "@/components/ui/button";
-import { getForceFriendlyLabel } from "@/utils/get-force";
-import getStopData from "@/utils/get-stop-data";
-import { checkAvailability } from "@/utils/stop-availability";
+import PageFilters from "@/components/PageFilters";
+import { Skeleton } from "@/components/ui/skeleton";
+import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
+import { getForceFriendlyLabel } from "@/utils/getForce";
+import getMonthFilterItems from "@/utils/getMonthFilterItems";
+import { getAvailability } from "@/utils/stopAvailability";
+import { OVERVIEW_FILTER_ITEMS } from "@/constants";
+import PageFiltersContainer from "@/components/PageFiltersContainer";
 
-export default async function Page() {
-  const monthRange = await checkAvailability(3);
+async function OverviewPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ date?: string; type?: string; ethnicity?: string }>;
+}) {
+  // const { date = "all", type = "all", ethnicity = "all" } = await searchParams;
+
+  const monthRange = await getAvailability();
+  const monthFilterMenuItems = getMonthFilterItems(monthRange);
 
   if (!monthRange.length) {
-    throw new Error("TODO: mention time range");
+    return <h1>TODO: Component for unavailable data</h1>;
   }
 
-  getStopData(monthRange);
-  console.log(getForceFriendlyLabel());
+  //  getStopData(monthRange);
 
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
-        </div>
-        <div className="font-mono text-xs text-muted-foreground">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+    <>
+      <h1>Overview</h1>
+      <p>
+        Headline stop and search figures for {getForceFriendlyLabel()} Police
+      </p>
+      <PageFiltersContainer>
+        <PageFilters
+          value={monthFilterMenuItems[0].value}
+          menuItems={monthFilterMenuItems}
+          urlParamKey="date"
+          fallback={<Skeleton className="h-7 w-40" />}
+        />
+        <PageFilters
+          width="w-43"
+          value={OVERVIEW_FILTER_ITEMS.types[0].value}
+          menuItems={OVERVIEW_FILTER_ITEMS.types}
+          urlParamKey="type"
+          fallback={<Skeleton className="h-7 w-43" />}
+        />
+        <PageFilters
+          width="w-30"
+          value={OVERVIEW_FILTER_ITEMS.ethnicities[0].value}
+          menuItems={OVERVIEW_FILTER_ITEMS.ethnicities}
+          urlParamKey="ethnicity"
+          fallback={<Skeleton className="h-7 w-30" />}
+        />
+      </PageFiltersContainer>
+    </>
   );
 }
+
+export default decorateWithPagePadding(OverviewPage);

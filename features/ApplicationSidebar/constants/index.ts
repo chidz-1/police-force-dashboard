@@ -8,7 +8,7 @@ import {
   Clock,
 } from "lucide-react";
 
-import { MenuItem } from "../components/menu-item/types";
+import { MenuItem } from "../components/MenuItem/types";
 
 export const MENU_ITEM_CONFIG: { navMain: MenuItem[] } = {
   navMain: [

@@ -2,8 +2,9 @@ import { Inter, Merriweather, JetBrains_Mono } from "next/font/google";
 import type { Metadata } from "next";
 
 import "./globals.css";
-import AppProviders from "@/features/providers";
-import DashboardSideBar from "@/features/application-sidebar/components/sidebar";
+import AppProviders from "@/features/Providers/Components/Providers";
+import DashboardSideBar from "@/features/ApplicationSidebar/components/Sidebar";
+import { FilterChangeProvider } from "@/features/Providers/Components/FilterChangeProvider";
 
 const fontSans = Inter({
   subsets: ["latin"],
@@ -36,7 +37,9 @@ export default function RootLayout({
         className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
       >
         <AppProviders>
-          <DashboardSideBar>{children}</DashboardSideBar>
+          <DashboardSideBar>
+            <FilterChangeProvider>{children}</FilterChangeProvider>
+          </DashboardSideBar>
         </AppProviders>
       </body>
     </html>

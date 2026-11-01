@@ -1,6 +1,6 @@
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { SidebarProvider } from "@/components/ui/sidebar";
-import { ThemeProvider } from "./components/theme-provider";
+import { ThemeProvider } from "../ThemeProvider";
 
 export default function Providers({ children }: { children: React.ReactNode }) {
   return (

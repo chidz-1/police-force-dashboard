@@ -1,9 +1,9 @@
-import MainNavigation from "../main-navigation";
+import MainNavigation from "../MainNavigation";
 import { Separator } from "@/components/ui/separator";
 import { SidebarInset, SidebarTrigger } from "@/components/ui/sidebar";
-import ThemeToggle from "../theme-toggle";
-import ForceBadge from "../force-badge";
-import { getForceFriendlyLabel, getForceId } from "@/utils/get-force";
+import ThemeToggle from "../ThemeToggle";
+import ForceBadge from "../ForceBadge";
+import { getForceFriendlyLabel, getForceId } from "@/utils/getForce";
 
 import { SidebarProps } from "./types";
 

@@ -4,8 +4,8 @@ import {
   YearMonth,
 } from "@/types/crimes-street-dates";
 import { cacheLife, cacheTag } from "next/cache";
-import monthRange, { MonthsFilter } from "./month-range";
-import { getForceId } from "./get-force";
+import { getForceId } from "./getForce";
+import { MAX_AVAILABILITY_MONTH_RANGE } from "@/constants";
 
 export async function fetchAvailability(): Promise<AvailabilityHash> {
   "use cache";
@@ -24,17 +24,21 @@ export async function fetchAvailability(): Promise<AvailabilityHash> {
   return Object.fromEntries(availability.map((e) => [e.date, e]));
 }
 
-export async function checkAvailability(
-  backDatedMonths: MonthsFilter
-): Promise<YearMonth[]> {
+export async function getAvailability(): Promise<YearMonth[]> {
+  "use cache";
+  cacheTag("schema:availability");
+  cacheLife("max");
+
   const availabilityEntries = await fetchAvailability();
-  const userRange = monthRange(availabilityEntries, backDatedMonths);
+  const dateKeys = Object.keys(availabilityEntries);
+  const availableDates: YearMonth[] = [];
 
-  const isRangeAvailable = userRange.every(
-    (rangeDate) =>
-      availabilityEntries[rangeDate] &&
-      availabilityEntries[rangeDate]["stop-and-search"].includes(getForceId())
-  );
+  for (let i = 0; i < dateKeys.length; i++) {
+    const date = dateKeys[i];
+    if (availabilityEntries[date]["stop-and-search"].includes(getForceId())) {
+      availableDates.push(date);
+    }
+  }
 
-  return isRangeAvailable ? userRange : [];
+  return availableDates.slice(0, MAX_AVAILABILITY_MONTH_RANGE);
 }

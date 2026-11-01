@@ -173,10 +173,9 @@ project root
 
 ```
 features/feature-name/
-  ├── components/      # Feature specific components
+  ├── components/      # Feature specific components (may include types.ts within each sub component folder)
   ├── utils/           # Feature specific utility functions 
   ├── constants/       # Feature specific constants 
-  ├── types/           # Feature specific type related files
   ├── actions/         # Feature specific Next.js server actions 
   │   └── {verb}{resource}.ts # e.g. addUser.ts | deleteVehicle.ts
   └── hooks/           # Feature specific React Hooks

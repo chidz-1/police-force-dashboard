@@ -185,4 +185,20 @@
   [role="button"]:not(:disabled) {
     cursor: pointer;
   }
+
+  h1 {
+    @apply mb-2 text-3xl font-bold;
+  }
+
+  h2 {
+    @apply mb-2 text-2xl font-semibold;
+  }
+
+  h3 {
+    @apply mb-2 text-xl font-semibold;
+  }
+
+  p {
+    @apply mb-2;
+  }
 }

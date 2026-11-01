@@ -1,17 +1,15 @@
 "use client";
 
-import * as React from "react";
-
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import DashboardMenuItem from "../menu-item";
+import DashboardMenuItem from "../MenuItem";
 import { MENU_ITEM_CONFIG } from "../../constants";
-import DashboardHeader from "../dashboard-header";
-import { getForceFriendlyLabel } from "@/utils/get-force";
+import DashboardHeader from "../DashboardHeader";
+import { getForceFriendlyLabel } from "@/utils/getForce";
 
 export default function MainNavigation({
   ...props
