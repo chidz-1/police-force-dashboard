@@ -1,6 +1,7 @@
 import { PageFilters } from "@/components/PageFilters/types";
 
 export const MAX_AVAILABILITY_MONTH_RANGE = 12;
+export const API_BURST_MITIGATION_DELAY = 500; // ms
 
 // Overview > Page Filters
 

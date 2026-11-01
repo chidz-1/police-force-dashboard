@@ -4,22 +4,16 @@ import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { OverviewPageSearchParams } from "@/features/Overview/types";
 import OverviewVisualizations from "@/features/Overview/OverviewVisualizations";
+import getStopData from "@/utils/getStopData";
 
 async function OverviewPage({
   searchParams,
 }: {
   searchParams: OverviewPageSearchParams;
 }) {
-  // const { date = "all", type = "all", ethnicity = "all" } = await searchParams;
-
-  const monthRange = await getAvailability();
-  const monthFilterMenuItems = getMonthFilterItems(monthRange);
-
-  if (!monthRange.length) {
-    return <h1>TODO: Component for unavailable data</h1>;
-  }
-
-  //  getStopData(monthRange);
+  const availableMonthRange = await getAvailability();
+  const monthFilterMenuItems = getMonthFilterItems(availableMonthRange);
+  const stopData = await getStopData(availableMonthRange);
 
   return (
     <>
@@ -28,7 +22,13 @@ async function OverviewPage({
         Headline stop and search figures for {getForceFriendlyLabel()} Police
       </p>
 
+      {/* TODO: Resolve the fallback granted it might be too fast to notice */}
+      {/* fallback={<Skeleton className="h-7 w-40" /> */}
+      {/* fallback={<Skeleton className="h-7 w-43" /> */}
+      {/* fallback={<Skeleton className="h-7 w-30" /> */}
+
       <OverviewVisualizations
+        monthRange={availableMonthRange}
         searchParams={searchParams}
         monthFilterMenuItems={monthFilterMenuItems}
         fallback={<h1 className="text-5xl">LOADING</h1>}

@@ -11,7 +11,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
-import wrapWithSuspense from "@/utils/decorateWithSuspense";
 import { useFilterChange } from "@/features/Providers/hooks/useFilterChange";
 
 function PageFilters({
@@ -52,4 +51,4 @@ function PageFilters({
   );
 }
 
-export default wrapWithSuspense(PageFilters);
+export default PageFilters;

@@ -2,12 +2,12 @@ import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { OverviewVisualizationsProps } from "./types";
-import { Skeleton } from "@/components/ui/skeleton";
 import { OVERVIEW_FILTER_ITEMS } from "@/constants";
 
 async function OverviewVisualizations({
   searchParams,
   monthFilterMenuItems,
+  monthRange,
 }: OverviewVisualizationsProps) {
   const allMonthsValue = monthFilterMenuItems[0].value;
   const allSearchTypesValue = OVERVIEW_FILTER_ITEMS.types[0].value;
@@ -19,6 +19,10 @@ async function OverviewVisualizations({
     ethnicity = allEthnicitiesValue,
   } = await searchParams;
 
+  if (!monthRange.length) {
+    return <h1>TODO: Component for unavailable data for visualizations</h1>;
+  }
+
   return (
     <>
       <PageFiltersContainer>
@@ -26,14 +30,12 @@ async function OverviewVisualizations({
           value={date === allMonthsValue ? allMonthsValue : date}
           menuItems={monthFilterMenuItems}
           urlParamKey="date"
-          fallback={<Skeleton className="h-7 w-40" />}
         />
         <PageFilters
           width="w-43"
           value={type === allSearchTypesValue ? allSearchTypesValue : type}
           menuItems={OVERVIEW_FILTER_ITEMS.types}
           urlParamKey="type"
-          fallback={<Skeleton className="h-7 w-43" />}
         />
         <PageFilters
           width="w-30"
@@ -42,10 +44,19 @@ async function OverviewVisualizations({
           }
           menuItems={OVERVIEW_FILTER_ITEMS.ethnicities}
           urlParamKey="ethnicity"
-          fallback={<Skeleton className="h-7 w-30" />}
         />
       </PageFiltersContainer>
-      <pre>{JSON.stringify({ date, ethnicity, type }, null, 3)}</pre>
+      <pre>
+        {JSON.stringify(
+          {
+            date,
+            ethnicity,
+            type,
+          },
+          null,
+          3
+        )}
+      </pre>
     </>
   );
 }

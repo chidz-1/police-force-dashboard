@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { YearMonth } from "./crimes-street-dates";
 
 export const stopAndSearchTypeSchema = z.enum([
   "Person search",
@@ -47,3 +48,4 @@ export type StopAndSearchType = z.infer<typeof stopAndSearchTypeSchema>;
 export type StopAndSearchLocation = z.infer<typeof stopAndSearchLocationSchema>;
 export type StopAndSearchOutcome = z.infer<typeof stopAndSearchOutcomeSchema>;
 export type StopAndSearch = z.infer<typeof stopAndSearchSchema>;
+export type StopAndSearchDatesRecord = Record<YearMonth, StopAndSearch[]>;

@@ -19,3 +19,11 @@ To use the components in your app, import them as follows:
 ```tsx
 import { Button } from "@/components/ui/button";
 ```
+
+
+## Challenges Faced
+
+### Misquoted API burst limit rate 
+
+- Problem: Documented as 30, in reality it's circa 5
+- Solution: Staggered API calls to fetch multiple Stops by date (trade-off is it increases build time)     
