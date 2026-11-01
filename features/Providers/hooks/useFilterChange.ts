@@ -1,7 +1,7 @@
 "use client";
 
 import { useContext } from "react";
-import { FilterChangeContext } from "..";
+import { FilterChangeContext } from "../Components/FilterChangeProvider";
 
 export function useFilterChange() {
   const context = useContext(FilterChangeContext);

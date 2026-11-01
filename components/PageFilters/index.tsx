@@ -12,7 +12,7 @@ import {
   SelectValue,
 } from "../ui/select";
 import wrapWithSuspense from "@/utils/decorateWithSuspense";
-import { useFilterChange } from "@/features/Providers/Components/FilterChangeProvider/hooks/useFilterChange";
+import { useFilterChange } from "@/features/Providers/hooks/useFilterChange";
 
 function PageFilters({
   value,

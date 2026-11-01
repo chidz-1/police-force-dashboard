@@ -3,7 +3,7 @@
 import { ListFilter, Loader2 } from "lucide-react";
 
 import { PageFiltersContainerProps } from "./types";
-import { useFilterChange } from "@/features/Providers/Components/FilterChangeProvider/hooks/useFilterChange";
+import { useFilterChange } from "@/features/Providers/hooks/useFilterChange";
 
 export default function PageFiltersContainer({
   children,
