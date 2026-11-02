@@ -26,4 +26,4 @@ import { Button } from "@/components/ui/button";
 ### Misquoted API burst limit rate 
 
 - Problem: Documented as 30, in reality it's circa 5
-- Solution: Staggered API calls to fetch multiple Stops by date (trade-off is it increases build time)     
+- Solution: Staggered API calls to fetch multiple Stops by date (trade-off is it increases fetch time)     

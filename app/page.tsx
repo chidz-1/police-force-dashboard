@@ -11,6 +11,11 @@ async function OverviewPage({
   searchParams: OverviewPageSearchParams;
 }) {
   const availableMonthRange = await getAvailability();
+
+  if (!availableMonthRange.length) {
+    return <h1>TODO: Component for unavailable data for visualizations</h1>;
+  }
+
   const monthFilterMenuItems = getMonthFilterItems(availableMonthRange);
 
   return (

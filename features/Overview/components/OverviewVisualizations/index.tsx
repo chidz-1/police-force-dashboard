@@ -4,6 +4,7 @@ import PageFilters from "@/components/PageFilters";
 import { OverviewVisualizationsProps } from "./types";
 import { OVERVIEW_FILTER_ITEMS } from "@/constants";
 import OverviewCharts from "../OverviewCharts";
+import getStopData from "@/utils/getStopData";
 
 async function OverviewVisualizations({
   searchParams,
@@ -20,9 +21,8 @@ async function OverviewVisualizations({
     ethnicity = allEthnicitiesValue,
   } = await searchParams;
 
-  if (!monthRange.length) {
-    return <h1>TODO: Component for unavailable data for visualizations</h1>;
-  }
+  // TODO: Massage data for visualizations (+ reduce RSC weight)
+  const stopData = await getStopData(monthRange);
 
   return (
     <>
@@ -47,7 +47,7 @@ async function OverviewVisualizations({
           urlParamKey="ethnicity"
         />
       </PageFiltersContainer>
-      <OverviewCharts filters={{ date, ethnicity, type }} />
+      <OverviewCharts filters={{ date, ethnicity, type }} stopData={stopData} />
     </>
   );
 }

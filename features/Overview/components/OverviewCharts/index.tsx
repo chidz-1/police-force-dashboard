@@ -1,11 +1,11 @@
 "use client";
 
-import useStopData from "@/features/Providers/hooks/useStopData";
 import { OverviewChartsProps } from "./types";
 
-export default function OverviewCharts({ filters }: OverviewChartsProps) {
-  const stopData = useStopData();
-
+export default function OverviewCharts({
+  filters,
+  stopData,
+}: OverviewChartsProps) {
   return (
     <>
       <h2>📊 Charts go here!</h2>
