@@ -2,20 +2,11 @@
 
 import { OverviewChartsProps } from "./types";
 
-export default function OverviewCharts({
-  filters,
-  rawStopData,
-}: OverviewChartsProps) {
+export default function OverviewCharts({ filters }: OverviewChartsProps) {
   return (
     <>
       <h2>📊 Charts go here!</h2>
-      <pre>
-        {JSON.stringify(
-          { filters, rowCount: rawStopData.length, rawStopData },
-          null,
-          3
-        )}
-      </pre>
+      <pre>{JSON.stringify({ filters }, null, 3)}</pre>
     </>
   );
 }

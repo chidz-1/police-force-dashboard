@@ -1,15 +1,16 @@
+import { flatten } from "lodash";
+
 import { ALL_MONTHS_FILTER_ITEM } from "@/constants";
 import {
-  StopAndSearch,
+  RawStopAndSearchData,
   StopAndSearchDatesRecord,
 } from "@/types/stop-and-search";
 
 export default function getRawStopData(
   stopData: StopAndSearchDatesRecord,
   timeSpan: string
-): StopAndSearch[][] {
+): RawStopAndSearchData {
   return timeSpan === ALL_MONTHS_FILTER_ITEM.value
-    ? Object.values(stopData)
-    : [stopData[timeSpan]];
-  return [];
+    ? flatten(Object.values(stopData))
+    : stopData[timeSpan];
 }

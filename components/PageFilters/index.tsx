@@ -41,11 +41,16 @@ function PageFilters({
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
-        {menuItems.map(({ label, value }) => (
-          <SelectItem key={value} value={value}>
-            {label}
-          </SelectItem>
-        ))}
+        {menuItems.map(({ label, value }) => {
+          return (
+            <SelectItem
+              key={value}
+              value={urlParamKey !== "date" ? label : value}
+            >
+              {label}
+            </SelectItem>
+          );
+        })}
       </SelectContent>
     </Select>
   );

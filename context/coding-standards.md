@@ -160,6 +160,7 @@ project root
   ├── components/      # Global React components (Shadcn/UI components are in the ui/ subdirectory)
   ├── features/        # Specific application features
   ├── utils/           # Global utility functions 
+  ├── lib/             # Global library i.e. data related design patterns 
   ├── constants/       # Global constants 
   ├── types/           # Global type related files
   ├── actions/         # Global Next.js server actions 
@@ -175,6 +176,7 @@ project root
 features/feature-name/
   ├── components/      # Feature specific components (may include types.ts within each sub component folder)
   ├── utils/           # Feature specific utility functions 
+  ├── lib/             # Global library i.e. data related design patterns 
   ├── constants/       # Feature specific constants 
   ├── actions/         # Feature specific Next.js server actions 
   │   └── {verb}{resource}.ts # e.g. addUser.ts | deleteVehicle.ts

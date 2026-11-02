@@ -1,8 +1,3 @@
-export interface AggregatedStat {
-  value: number;
-  secondaryValue?: number;
-}
-
 type RadialChartPortion = Record<string, number>;
 type PieChartSlice = Record<string, number>;
 type BarChartLine = Record<string, string | number>;
@@ -13,7 +8,4 @@ export interface ChartTypeConfig {
   barCharts?: Record<string, BarChartLine[]>;
 }
 
-export type PageData = {
-  totalNumRecords: number;
-  aggregatedStats: AggregatedStat[];
-} & ChartTypeConfig;
+export type PageFilters = Record<string, string | number>;

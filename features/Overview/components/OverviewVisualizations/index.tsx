@@ -6,53 +6,53 @@ import { OVERVIEW_FILTER_ITEMS } from "@/constants";
 import OverviewCharts from "../OverviewCharts";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
+import PageDataDirector from "@/lib/PageData/PageDataDirector";
+import OverviewPageBuilder from "../../lib/OverviewPageBuilder";
 
 async function OverviewVisualizations({
   searchParams,
   monthFilterMenuItems,
   monthRange,
 }: OverviewVisualizationsProps) {
-  const allMonthsValue = monthFilterMenuItems[0].value;
-  const allSearchTypesValue = OVERVIEW_FILTER_ITEMS.types[0].value;
-  const allEthnicitiesValue = OVERVIEW_FILTER_ITEMS.ethnicities[0].value;
-
   const {
-    date = allMonthsValue,
-    type = allSearchTypesValue,
-    ethnicity = allEthnicitiesValue,
+    date = monthFilterMenuItems[0].value,
+    type = OVERVIEW_FILTER_ITEMS.type[0].label,
+    officer_defined_ethnicity = OVERVIEW_FILTER_ITEMS
+      .officer_defined_ethnicity[0].label,
   } = await searchParams;
 
-  // TODO: Massage data for visualizations (+ reduce RSC weight)
   const stopData = await getStopData(monthRange);
-  const rawStopData = getRawStopData(stopData, date);
+
+  const dataBuilder = new OverviewPageBuilder(getRawStopData(stopData, date), {
+    officer_defined_ethnicity,
+    type,
+  });
+
+  const pageDataDirector = new PageDataDirector(dataBuilder);
 
   return (
     <>
       <PageFiltersContainer>
         <PageFilters
-          value={date === allMonthsValue ? allMonthsValue : date}
+          value={date}
           menuItems={monthFilterMenuItems}
           urlParamKey="date"
         />
         <PageFilters
-          width="w-43"
-          value={type === allSearchTypesValue ? allSearchTypesValue : type}
-          menuItems={OVERVIEW_FILTER_ITEMS.types}
+          width="w-48"
+          value={type}
+          menuItems={OVERVIEW_FILTER_ITEMS.type}
           urlParamKey="type"
         />
         <PageFilters
           width="w-30"
-          value={
-            ethnicity === allEthnicitiesValue ? allEthnicitiesValue : ethnicity
-          }
-          menuItems={OVERVIEW_FILTER_ITEMS.ethnicities}
-          urlParamKey="ethnicity"
+          value={officer_defined_ethnicity}
+          menuItems={OVERVIEW_FILTER_ITEMS.officer_defined_ethnicity}
+          urlParamKey="officer_defined_ethnicity"
         />
       </PageFiltersContainer>
-      <OverviewCharts
-        filters={{ date, ethnicity, type }}
-        rawStopData={rawStopData}
-      />
+      <OverviewCharts filters={{ date, officer_defined_ethnicity, type }} />
+      <pre>{JSON.stringify(pageDataDirector.getFullPageData(), null, 3)}</pre>
     </>
   );
 }

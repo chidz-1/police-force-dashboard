@@ -49,4 +49,4 @@ export type StopAndSearchLocation = z.infer<typeof stopAndSearchLocationSchema>;
 export type StopAndSearchOutcome = z.infer<typeof stopAndSearchOutcomeSchema>;
 export type StopAndSearch = z.infer<typeof stopAndSearchSchema>;
 export type StopAndSearchDatesRecord = Record<YearMonth, StopAndSearch[]>;
-export type RawStopAndSearchData = StopAndSearch[][];
+export type RawStopAndSearchData = StopAndSearch[];
