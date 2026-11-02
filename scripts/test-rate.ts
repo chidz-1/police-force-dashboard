@@ -1,3 +1,9 @@
+import { API_KNOWN_BURST_LIMIT, API_BURST_MITIGATION_DELAY } from "@/constants";
+
+function burstLimitDelay(delayInMs: number) {
+  return new Promise((res) => setTimeout(res, delayInMs));
+}
+
 // scripts/test-rate.ts — run with: npx tsx scripts/test-rate.ts
 const months = [
   "2026-08",
@@ -5,19 +11,19 @@ const months = [
   "2026-06",
   "2026-05",
   "2026-04",
-  // "2026-03",
-  // "2026-02",
-  // "2026-01",
-  // "2025-12",
-  // "2025-11",
-  // "2025-10",
-  // "2025-09",
+  "2026-03",
+  "2026-02",
+  "2026-01",
+  "2025-12",
+  "2025-11",
+  "2025-10",
+  "2025-09",
 ];
 
 const start = Date.now();
-
 const results = await Promise.all(
-  months.map(async (date) => {
+  months.map(async (date, i) => {
+    await burstLimitDelay(i * API_BURST_MITIGATION_DELAY);
     const r = await fetch(
       `https://data.police.uk/api/stops-force?force=leicestershire&date=${date}`
     );

@@ -5,6 +5,7 @@ import { OverviewVisualizationsProps } from "./types";
 import { OVERVIEW_FILTER_ITEMS } from "@/constants";
 import OverviewCharts from "../OverviewCharts";
 import getStopData from "@/utils/getStopData";
+import getRawStopData from "@/utils/getRawStopData";
 
 async function OverviewVisualizations({
   searchParams,
@@ -23,6 +24,7 @@ async function OverviewVisualizations({
 
   // TODO: Massage data for visualizations (+ reduce RSC weight)
   const stopData = await getStopData(monthRange);
+  const rawStopData = getRawStopData(stopData, date);
 
   return (
     <>
@@ -47,7 +49,10 @@ async function OverviewVisualizations({
           urlParamKey="ethnicity"
         />
       </PageFiltersContainer>
-      <OverviewCharts filters={{ date, ethnicity, type }} stopData={stopData} />
+      <OverviewCharts
+        filters={{ date, ethnicity, type }}
+        rawStopData={rawStopData}
+      />
     </>
   );
 }

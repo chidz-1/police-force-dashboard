@@ -1,7 +1,13 @@
 import { PageFilters } from "@/components/PageFilters/types";
 
 export const MAX_AVAILABILITY_MONTH_RANGE = 12;
-export const API_BURST_MITIGATION_DELAY = 500; // ms
+export const API_KNOWN_BURST_LIMIT = 3;
+export const API_BURST_MITIGATION_DELAY = 300; // ms
+
+export const ALL_MONTHS_FILTER_ITEM = {
+  label: "All available months",
+  value: "all",
+};
 
 // Overview > Page Filters
 
