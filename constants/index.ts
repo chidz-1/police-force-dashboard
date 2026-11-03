@@ -16,7 +16,7 @@ export const PAGE_FILTER_WIDTHS = {
   gender: "w-30",
   age_range: "w-30",
   officer_defined_ethnicity: "w-30",
-  outcome: "w-48",
+  outcome: "w-50",
   object_of_search: "w-62",
   legislation: "w-90",
 } as const satisfies Partial<PageFilterWidths>;
