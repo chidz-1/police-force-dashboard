@@ -84,7 +84,7 @@ async function OverviewVisualizations({
           <StatCard
             title="Find rate"
             Icon={Target}
-            figure={pageData.stats.action.value}
+            figure={pageData.stats.found.value}
             figureType="percentage"
             description="Outcome linked to object of search"
           />
