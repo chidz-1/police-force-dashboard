@@ -63,7 +63,7 @@ async function LegislationVisualizations({
           urlParamKey="type"
         />
       </PageFiltersContainer>
-      <StatCardsContainer>
+      <StatCardsContainer className="xl:grid-cols-3">
         {pageData.stats?.misuseOfDrugsAct && (
           <StatCard
             title="Misuse of Drugs Act"

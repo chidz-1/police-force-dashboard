@@ -6,7 +6,7 @@ import { ForceBadgeProps } from "./types";
 export default function ForceBadge({ name, id }: ForceBadgeProps) {
   return (
     <Badge
-      className="flex flex-col text-sm max-sm:border-none max-sm:[background:none]! sm:flex-row"
+      className="flex flex-col px-3 text-sm max-sm:border-none max-sm:[background:none]! sm:flex-row"
       variant="outline"
     >
       <span className="flex items-center">
