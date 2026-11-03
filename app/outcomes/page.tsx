@@ -1,6 +1,22 @@
 import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
+import getMonthFilterItems from "@/utils/getMonthFilterItems";
+import { getAvailability } from "@/utils/stopAvailability";
+import { OutcomesPageSearchParams } from "@/features/Outcomes/types";
+import OutcomesVisualizations from "@/features/Outcomes/components/OutcomesVisualizations";
 
-function OutcomesPage() {
+async function OutcomesPage({
+  searchParams,
+}: {
+  searchParams: OutcomesPageSearchParams;
+}) {
+  const availableMonthRange = await getAvailability();
+
+  if (!availableMonthRange.length) {
+    return <h1>TODO: Component for unavailable data for visualizations</h1>;
+  }
+
+  const monthFilterMenuItems = getMonthFilterItems(availableMonthRange);
+
   return (
     <>
       <h1>Outcomes</h1>
@@ -9,7 +25,12 @@ function OutcomesPage() {
         action to arrest.
       </p>
 
-      {/* TODO: Visualizations component */}
+      <OutcomesVisualizations
+        monthRange={availableMonthRange}
+        searchParams={searchParams}
+        monthFilterMenuItems={monthFilterMenuItems}
+        fallback={<h1 className="text-5xl">LOADING</h1>}
+      />
     </>
   );
 }

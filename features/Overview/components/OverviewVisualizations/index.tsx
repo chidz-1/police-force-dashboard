@@ -2,7 +2,7 @@ import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { OverviewVisualizationsProps } from "./types";
-import { OVERVIEW_FILTER_ITEMS } from "@/constants";
+import { OVERVIEW_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import OverviewCharts from "../OverviewCharts";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
@@ -39,13 +39,13 @@ async function OverviewVisualizations({
           urlParamKey="date"
         />
         <PageFilters
-          width="w-48"
+          width={PAGE_FILTER_WIDTHS.type}
           value={type}
           menuItems={OVERVIEW_FILTER_ITEMS.type}
           urlParamKey="type"
         />
         <PageFilters
-          width="w-30"
+          width={PAGE_FILTER_WIDTHS.officer_defined_ethnicity}
           value={officer_defined_ethnicity}
           menuItems={OVERVIEW_FILTER_ITEMS.officer_defined_ethnicity}
           urlParamKey="officer_defined_ethnicity"

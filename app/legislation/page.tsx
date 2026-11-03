@@ -1,6 +1,22 @@
 import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
+import getMonthFilterItems from "@/utils/getMonthFilterItems";
+import { getAvailability } from "@/utils/stopAvailability";
+import { LegislationPageSearchParams } from "@/features/Legislation/types";
+import LegislationVisualizations from "@/features/Legislation/components/LegislationVisualizations";
 
-function LegislationPage() {
+async function LegislationPage({
+  searchParams,
+}: {
+  searchParams: LegislationPageSearchParams;
+}) {
+  const availableMonthRange = await getAvailability();
+
+  if (!availableMonthRange.length) {
+    return <h1>TODO: Component for unavailable data for visualizations</h1>;
+  }
+
+  const monthFilterMenuItems = getMonthFilterItems(availableMonthRange);
+
   return (
     <>
       <h1>Legislation</h1>
@@ -9,7 +25,12 @@ function LegislationPage() {
         for.
       </p>
 
-      {/* TODO: Visualizations component */}
+      <LegislationVisualizations
+        monthRange={availableMonthRange}
+        searchParams={searchParams}
+        monthFilterMenuItems={monthFilterMenuItems}
+        fallback={<h1 className="text-5xl">LOADING</h1>}
+      />
     </>
   );
 }

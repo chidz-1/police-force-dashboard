@@ -1,4 +1,4 @@
-import { PageFilters } from "@/components/PageFilters/types";
+import { PageFilters, PageFilterWidths } from "@/components/PageFilters/types";
 
 export const MAX_AVAILABILITY_MONTH_RANGE = 12;
 export const API_KNOWN_BURST_LIMIT = 3;
@@ -10,6 +10,16 @@ export const ALL_MONTHS_FILTER_ITEM = {
   label: "All available months",
   value: "all",
 };
+
+export const PAGE_FILTER_WIDTHS = {
+  type: "w-48",
+  gender: "w-30",
+  age_range: "w-30",
+  officer_defined_ethnicity: "w-30",
+  outcome: "w-48",
+  object_of_search: "w-62",
+  legislation: "w-90",
+} as const satisfies Partial<PageFilterWidths>;
 
 // Filter Items
 

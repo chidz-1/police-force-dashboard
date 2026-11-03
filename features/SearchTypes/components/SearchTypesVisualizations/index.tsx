@@ -2,7 +2,7 @@ import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { SearchTypesVisualizationsProps } from "./types";
-import { SEARCH_TYPES_FILTER_ITEMS } from "@/constants";
+import { SEARCH_TYPES_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 
@@ -30,19 +30,19 @@ async function SearchTypesVisualizations({
           urlParamKey="date"
         />
         <PageFilters
-          width="w-48"
+          width={PAGE_FILTER_WIDTHS.type}
           value={type}
           menuItems={SEARCH_TYPES_FILTER_ITEMS.type}
           urlParamKey="type"
         />
         <PageFilters
-          width="w-30"
+          width={PAGE_FILTER_WIDTHS.gender}
           value={gender}
           menuItems={SEARCH_TYPES_FILTER_ITEMS.gender}
           urlParamKey="gender"
         />
         <PageFilters
-          width="w-48"
+          width={PAGE_FILTER_WIDTHS.outcome}
           value={outcome}
           menuItems={SEARCH_TYPES_FILTER_ITEMS.outcome}
           urlParamKey="outcome"

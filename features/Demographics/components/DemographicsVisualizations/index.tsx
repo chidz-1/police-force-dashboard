@@ -2,7 +2,7 @@ import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { DemographicsVisualizationsProps } from "./types";
-import { DEMOGRAPHICS_FILTER_ITEMS } from "@/constants";
+import { DEMOGRAPHICS_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 
@@ -31,19 +31,19 @@ async function DemographicsVisualizations({
           urlParamKey="date"
         />
         <PageFilters
-          width="w-30"
+          width={PAGE_FILTER_WIDTHS.gender}
           value={gender}
           menuItems={DEMOGRAPHICS_FILTER_ITEMS.gender}
           urlParamKey="gender"
         />
         <PageFilters
-          width="w-30"
+          width={PAGE_FILTER_WIDTHS.age_range}
           value={age_range}
           menuItems={DEMOGRAPHICS_FILTER_ITEMS.age_range}
           urlParamKey="age_range"
         />
         <PageFilters
-          width="w-30"
+          width={PAGE_FILTER_WIDTHS.officer_defined_ethnicity}
           value={officer_defined_ethnicity}
           menuItems={DEMOGRAPHICS_FILTER_ITEMS.officer_defined_ethnicity}
           urlParamKey="officer_defined_ethnicity"
