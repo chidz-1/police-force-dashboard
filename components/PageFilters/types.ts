@@ -1,6 +1,6 @@
 import { StopAndSearch } from "@/types/stop-and-search";
 
-export type FilterItems = { label: string; value: string }[];
+export type FilterItems = readonly { label: string; value: string }[];
 export type PageFilters = Record<keyof StopAndSearch, FilterItems>;
 
 export interface PageFiltersProps {
