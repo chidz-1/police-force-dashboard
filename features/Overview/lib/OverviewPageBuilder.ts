@@ -79,12 +79,6 @@ export default class OverviewPageBuilder implements PageDataBuilder<
       statCardData.action.count,
       stopTotal
     );
-    console.log(
-      `(found) ${statCardData.found.count} / (total) ${stopTotal} ... sr = ${getSafeRatio(
-        statCardData.found.count,
-        stopTotal
-      )}`
-    );
     statCardData.found.value = getSafeRatio(
       statCardData.found.count,
       stopTotal

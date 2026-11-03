@@ -1,3 +1,7 @@
+import { FileText, Handshake, ShieldAlert, ShieldCheck } from "lucide-react";
+
+import StatCard from "@/components/StatCard";
+import StatCardsContainer from "@/components/StatCardsContainer";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
@@ -5,6 +9,8 @@ import { OutcomesVisualizationsProps } from "./types";
 import { OUTCOMES_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
+import PageDataDirector from "@/lib/PageData/PageDataDirector";
+import OutcomesPageBuilder from "../../lib/OutcomesPageBuilder";
 
 async function OutcomesVisualizations({
   searchParams,
@@ -22,9 +28,18 @@ async function OutcomesVisualizations({
   const stopData = await getStopData(monthRange);
   const rawStopData = getRawStopData(stopData, date);
 
+  const dataBuilder = new OutcomesPageBuilder(rawStopData, {
+    outcome,
+    object_of_search,
+    officer_defined_ethnicity,
+  });
+
+  const pageDataDirector = new PageDataDirector(dataBuilder);
+  const pageData = pageDataDirector.getFullPageData();
+
   return (
     <>
-      <PageFiltersContainer>
+      <PageFiltersContainer numOfResults={pageData.totalNumRecords}>
         <PageFilters
           value={date}
           menuItems={monthFilterMenuItems}
@@ -49,7 +64,44 @@ async function OutcomesVisualizations({
           urlParamKey="officer_defined_ethnicity"
         />
       </PageFiltersContainer>
-      <pre>{JSON.stringify(rawStopData, null, 3)}</pre>
+      <StatCardsContainer>
+        {pageData.stats?.arrests && (
+          <>
+            <StatCard
+              title="Arrests"
+              Icon={ShieldAlert}
+              figure={pageData.stats.arrests.count}
+              figureType="plain-number"
+            />
+            <StatCard
+              title="Arrest rate"
+              Icon={FileText}
+              figure={pageData.stats.arrests.value}
+              figureType="percentage"
+              description="of all searches"
+            />
+          </>
+        )}
+        {pageData.stats?.communityResolution && (
+          <StatCard
+            title="Community resolution"
+            Icon={Handshake}
+            figure={pageData.stats.communityResolution.value}
+            figureType="percentage"
+            description="resolved locally"
+          />
+        )}
+        {pageData.stats?.noFurtherAction && (
+          <StatCard
+            title="No further action"
+            Icon={ShieldCheck}
+            figure={pageData.stats.noFurtherAction.value}
+            figureType="percentage"
+            description="of all searches"
+          />
+        )}
+      </StatCardsContainer>
+      <pre>{JSON.stringify(pageData, null, 3)}</pre>
     </>
   );
 }

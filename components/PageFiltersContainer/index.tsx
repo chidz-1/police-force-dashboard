@@ -17,7 +17,7 @@ export default function PageFiltersContainer({
       <span>Filters</span>
       {children}
       <span className="flex gap-2">
-        <span className="font-bold">{numOfResults}</span>
+        <span className="font-bold text-primary">{numOfResults}</span>
         matching records
         {isPending ? (
           <>

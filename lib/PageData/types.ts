@@ -3,6 +3,7 @@ import { StopAndSearch } from "@/types/stop-and-search";
 interface StatValue {
   count: number;
   value: number | null;
+  label?: string | null;
 }
 
 export type AggregatedStats<K extends string> = Record<K, StatValue>;

@@ -31,7 +31,9 @@ export default function StatCard(props: StatCardProps) {
         </CardAction>
       </CardHeader>
       <CardContent>
-        <p className="mb-0 text-5xl font-bold">{formatFigure(props)}</p>
+        <p className="mb-0 text-5xl font-bold text-primary">
+          {formatFigure(props)}
+        </p>
       </CardContent>
       {description && (
         <CardFooter>

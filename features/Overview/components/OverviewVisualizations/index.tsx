@@ -91,7 +91,7 @@ async function OverviewVisualizations({
         )}
       </StatCardsContainer>
       {/* <OverviewCharts filters={{ date, officer_defined_ethnicity, type }} /> */}
-      <pre>{JSON.stringify(pageData, null, 3)}</pre>
+      {/* <pre>{JSON.stringify(pageData, null, 3)}</pre> */}
     </>
   );
 }

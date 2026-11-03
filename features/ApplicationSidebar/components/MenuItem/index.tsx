@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 import {
   SidebarGroup,
@@ -28,7 +29,7 @@ export default function MenuItem({ items, title }: MenuItemProps) {
                 <SidebarMenuButton
                   className="data-active:bg-primary data-active:text-primary-foreground"
                   isActive={currentPath === subItemUrl}
-                  render={<a href={subItemUrl} />}
+                  render={<Link href={subItemUrl} />}
                 >
                   <Icon />
                   {subItemTitle}

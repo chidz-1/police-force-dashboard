@@ -1,3 +1,7 @@
+import { Car, Crosshair, Layers, User } from "lucide-react";
+
+import StatCard from "@/components/StatCard";
+import StatCardsContainer from "@/components/StatCardsContainer";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
@@ -5,6 +9,8 @@ import { SearchTypesVisualizationsProps } from "./types";
 import { SEARCH_TYPES_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
+import PageDataDirector from "@/lib/PageData/PageDataDirector";
+import SearchTypesPageBuilder from "../../lib/SearchTypesPageBuilder";
 
 async function SearchTypesVisualizations({
   searchParams,
@@ -21,9 +27,18 @@ async function SearchTypesVisualizations({
   const stopData = await getStopData(monthRange);
   const rawStopData = getRawStopData(stopData, date);
 
+  const dataBuilder = new SearchTypesPageBuilder(rawStopData, {
+    type,
+    gender,
+    outcome,
+  });
+
+  const pageDataDirector = new PageDataDirector(dataBuilder);
+  const pageData = pageDataDirector.getFullPageData();
+
   return (
     <>
-      <PageFiltersContainer>
+      <PageFiltersContainer numOfResults={pageData.totalNumRecords}>
         <PageFilters
           value={date}
           menuItems={monthFilterMenuItems}
@@ -48,7 +63,45 @@ async function SearchTypesVisualizations({
           urlParamKey="outcome"
         />
       </PageFiltersContainer>
-      <pre>{JSON.stringify(rawStopData, null, 3)}</pre>
+      <StatCardsContainer>
+        {pageData.stats?.personOnly && (
+          <StatCard
+            title="Person searches"
+            Icon={User}
+            figure={pageData.stats.personOnly.count}
+            figureType="plain-number"
+            description="person only"
+          />
+        )}
+        {pageData.stats?.personAndVehicle && (
+          <StatCard
+            title="Person & vehicle"
+            Icon={Layers}
+            figure={pageData.stats.personAndVehicle.count}
+            figureType="plain-number"
+            description="combined searches"
+          />
+        )}
+        {pageData.stats?.vehicleOnly && (
+          <StatCard
+            title="Vehicle only"
+            Icon={Car}
+            figure={pageData.stats.vehicleOnly.count}
+            figureType="plain-number"
+            description="no person involved"
+          />
+        )}
+        {pageData.stats?.partOfOperation && (
+          <StatCard
+            title="Part of an operation"
+            Icon={Crosshair}
+            figure={pageData.stats.partOfOperation.value}
+            figureType="percentage"
+            description="of all searches"
+          />
+        )}
+      </StatCardsContainer>
+      <pre>{JSON.stringify(pageData, null, 3)}</pre>
     </>
   );
 }
