@@ -42,6 +42,7 @@ function PageFilters({
     >
       <SelectTrigger
         className={cn(
+          "rounded-full font-medium",
           width,
           "data-pending:pointer-events-none data-pending:opacity-50"
         )}

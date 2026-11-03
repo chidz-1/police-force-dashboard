@@ -10,7 +10,6 @@ import {
   BaseOverviewPageSearchParamsSansDate,
 } from "../types";
 import { OverviewChartStopDataKey, OverviewStatsKey } from "./types";
-import { getPercentage } from "@/utils/getPercentage";
 
 export default class OverviewPageBuilder implements PageDataBuilder<
   OverviewStatsKey,
@@ -70,20 +69,9 @@ export default class OverviewPageBuilder implements PageDataBuilder<
       } as AggregatedStats<OverviewStatsKey>
     );
 
-    statCardData.arrests.value = getPercentage(
-      statCardData.arrests.value,
-      stopTotal
-    );
-
-    statCardData.action.value = getPercentage(
-      statCardData.action.value,
-      stopTotal
-    );
-
-    statCardData.action.value = getPercentage(
-      statCardData.found.value,
-      stopTotal
-    );
+    statCardData.arrests.value = statCardData.arrests.value / stopTotal;
+    statCardData.action.value = statCardData.action.value / stopTotal;
+    statCardData.action.value = statCardData.found.value / stopTotal;
 
     this._overviewPageData.stats = statCardData;
   }

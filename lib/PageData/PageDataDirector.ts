@@ -13,6 +13,7 @@ export default class PageDataDirector<
 
   getFullPageData(): PageDataProduct<TStatKey, TStopKey> {
     const builder = this._builder;
+    builder.setStats();
     builder.setChartData();
     return builder.getProduct();
   }

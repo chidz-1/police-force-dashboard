@@ -1,3 +1,7 @@
+import { Search, ShieldAlert, ShieldCheck, Target } from "lucide-react";
+
+import StatCard from "@/components/StatCard";
+import StatCardsContainer from "@/components/StatCardsContainer";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
@@ -53,6 +57,39 @@ async function OverviewVisualizations({
           urlParamKey="officer_defined_ethnicity"
         />
       </PageFiltersContainer>
+      <StatCardsContainer>
+        <StatCard
+          title="Total searches"
+          Icon={Search}
+          figure={pageData.totalNumRecords}
+          figureType="plain-number"
+        />
+        {pageData.stats?.arrests && (
+          <StatCard
+            title="Arrest rate"
+            Icon={ShieldAlert}
+            figure={pageData.stats.arrests.value}
+            figureType="percentage"
+          />
+        )}
+        {pageData.stats?.action && (
+          <StatCard
+            title="No further action"
+            Icon={ShieldCheck}
+            figure={pageData.stats.action.value}
+            figureType="percentage"
+          />
+        )}
+        {pageData.stats?.found && (
+          <StatCard
+            title="Find rate"
+            Icon={Target}
+            figure={pageData.stats.action.value}
+            figureType="percentage"
+            description="Outcome linked to object of search"
+          />
+        )}
+      </StatCardsContainer>
       {/* <OverviewCharts filters={{ date, officer_defined_ethnicity, type }} /> */}
       <pre>{JSON.stringify(pageData, null, 3)}</pre>
     </>

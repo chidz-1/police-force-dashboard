@@ -3,9 +3,9 @@ export default function decorateWithPagePadding<P extends object>(
 ) {
   return function WithPadding(props: P) {
     return (
-      <main className="p-10">
+      <div className="p-10">
         <ComponentToDecorate {...(props as P)} />
-      </main>
+      </div>
     );
   };
 }
