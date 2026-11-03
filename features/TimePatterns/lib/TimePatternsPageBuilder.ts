@@ -1,15 +1,15 @@
 import { countBy, omitBy } from "lodash";
 
 import getSafeRatio from "@/utils/getSafeRatio";
+import formatHour from "@/utils/formatHour";
 import { PageDataBuilder, PageDataProduct } from "@/lib/PageData/types";
 import { RawStopAndSearchData } from "@/types/stop-and-search";
+import { DAY_LABELS } from "@/constants";
 import {
   BaseTimePatternsPageSearchParams,
   BaseTimePatternsPageSearchParamsSansDate,
 } from "../types";
 import { TimePatternsChartStopDataKey, TimePatternsStatsKey } from "./types";
-
-const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;
 
 export default class TimePatternsPageBuilder implements PageDataBuilder<
   TimePatternsStatsKey,
@@ -85,7 +85,7 @@ export default class TimePatternsPageBuilder implements PageDataBuilder<
       peakHour: {
         count: peakHourCount,
         value: getSafeRatio(peakHourCount, stopTotal),
-        label: stopTotal ? `${peakHour.padStart(2, "0")}:00` : null,
+        label: stopTotal ? formatHour(peakHour) : null,
       },
       busiestDay: {
         count: busiestDayCount,

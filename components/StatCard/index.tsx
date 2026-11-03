@@ -9,12 +9,14 @@ import {
   CardFooter,
   CardAction,
 } from "@/components/ui/card";
+import { cn } from "cn";
 
 export default function StatCard(props: StatCardProps) {
   const {
     title,
     description,
     Icon,
+    figureClassName,
     figure: _,
     figureType: __,
     ...divProps
@@ -30,8 +32,13 @@ export default function StatCard(props: StatCardProps) {
           <Icon />
         </CardAction>
       </CardHeader>
-      <CardContent>
-        <p className="mb-0 text-5xl font-bold text-primary">
+      <CardContent className="mb-auto">
+        <p
+          className={cn(
+            "mb-0 text-5xl font-bold text-primary",
+            figureClassName
+          )}
+        >
           {formatFigure(props)}
         </p>
       </CardContent>

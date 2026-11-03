@@ -21,6 +21,16 @@ export const PAGE_FILTER_WIDTHS = {
   legislation: "w-90",
 } as const satisfies Partial<PageFilterWidths>;
 
+export const DAY_LABELS = [
+  "Sun",
+  "Mon",
+  "Tue",
+  "Wed",
+  "Thu",
+  "Fri",
+  "Sat",
+] as const;
+
 // Filter Items
 
 export const TYPE_FILTER_ITEMS = [

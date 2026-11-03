@@ -10,4 +10,5 @@ export type StatCardProps = React.ComponentProps<"div"> & {
   title: string;
   description?: string;
   Icon: LucideIcon;
+  figureClassName?: string;
 } & StatCardFigureCombinations;

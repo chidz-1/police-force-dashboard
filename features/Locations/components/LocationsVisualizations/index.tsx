@@ -80,6 +80,7 @@ async function LocationsVisualizations({
             Icon={Navigation}
             figure={pageData.stats.busiestStreet.label ?? null}
             figureType="text"
+            figureClassName="text-3xl"
             description={`On or near ${formatNumber(pageData.stats.busiestStreet.count)} searches`}
           />
         )}
