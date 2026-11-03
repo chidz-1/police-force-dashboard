@@ -2,10 +2,7 @@ import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { LegislationVisualizationsProps } from "./types";
-import {
-  LEGISLATION_PAGE_FILTER_ITEMS,
-  PAGE_FILTER_WIDTHS,
-} from "@/constants";
+import { LEGISLATION_PAGE_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 

@@ -3,6 +3,8 @@
 import { usePathname, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 
+import { cn } from "cn";
+
 import { PageFiltersProps } from "./types";
 import {
   Select,
@@ -28,6 +30,7 @@ function PageFilters({
     <Select
       items={menuItems}
       value={value}
+      disabled={isPending}
       onValueChange={(newValue) => {
         if (newValue === null) return;
         const params = new URLSearchParams(searchParams);
@@ -37,7 +40,13 @@ function PageFilters({
         });
       }}
     >
-      <SelectTrigger className={width} data-pending={isPending || undefined}>
+      <SelectTrigger
+        className={cn(
+          width,
+          "data-pending:pointer-events-none data-pending:opacity-50"
+        )}
+        data-pending={isPending || undefined}
+      >
         <SelectValue />
       </SelectTrigger>
       <SelectContent>

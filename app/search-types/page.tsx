@@ -21,8 +21,8 @@ async function SearchTypesPage({
     <>
       <h1>Search Types</h1>
       <p>
-        Whether a person, a vehicle, or both were searched, and whether
-        searches were part of a policing operation.
+        Whether a person, a vehicle, or both were searched, and whether searches
+        were part of a policing operation.
       </p>
 
       <SearchTypesVisualizations
