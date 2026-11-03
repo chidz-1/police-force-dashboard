@@ -1,4 +1,3 @@
-import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { LegislationPageSearchParams } from "@/features/Legislation/types";
@@ -35,4 +34,4 @@ async function LegislationPage({
   );
 }
 
-export default decorateWithPagePadding(LegislationPage);
+export default LegislationPage;

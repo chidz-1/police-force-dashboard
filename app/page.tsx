@@ -1,4 +1,3 @@
-import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
 import { getForceFriendlyLabel } from "@/utils/getForce";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
@@ -39,4 +38,4 @@ async function OverviewPage({
   );
 }
 
-export default decorateWithPagePadding(OverviewPage);
+export default OverviewPage;

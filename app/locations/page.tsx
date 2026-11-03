@@ -1,4 +1,3 @@
-import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { LocationsPageSearchParams } from "@/features/Locations/types";
@@ -35,4 +34,4 @@ async function LocationsPage({
   );
 }
 
-export default decorateWithPagePadding(LocationsPage);
+export default LocationsPage;

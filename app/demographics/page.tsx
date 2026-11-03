@@ -1,4 +1,3 @@
-import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { DemographicsPageSearchParams } from "@/features/Demographics/types";
@@ -35,4 +34,4 @@ async function DemographicsPage({
   );
 }
 
-export default decorateWithPagePadding(DemographicsPage);
+export default DemographicsPage;

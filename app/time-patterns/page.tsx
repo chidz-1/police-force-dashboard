@@ -1,4 +1,3 @@
-import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { TimePatternsPageSearchParams } from "@/features/TimePatterns/types";
@@ -34,4 +33,4 @@ async function TimePatternsPage({
   );
 }
 
-export default decorateWithPagePadding(TimePatternsPage);
+export default TimePatternsPage;

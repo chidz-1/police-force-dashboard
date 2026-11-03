@@ -1,4 +1,3 @@
-import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { OutcomesPageSearchParams } from "@/features/Outcomes/types";
@@ -35,4 +34,4 @@ async function OutcomesPage({
   );
 }
 
-export default decorateWithPagePadding(OutcomesPage);
+export default OutcomesPage;
