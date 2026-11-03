@@ -51,7 +51,7 @@ async function OverviewVisualizations({
           urlParamKey="officer_defined_ethnicity"
         />
       </PageFiltersContainer>
-      <OverviewCharts filters={{ date, officer_defined_ethnicity, type }} />
+      {/* <OverviewCharts filters={{ date, officer_defined_ethnicity, type }} /> */}
       <pre>{JSON.stringify(pageDataDirector.getFullPageData(), null, 3)}</pre>
     </>
   );

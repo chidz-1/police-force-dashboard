@@ -1,6 +1,7 @@
 import { OVERVIEW_FILTER_ITEMS } from "@/constants";
+import { YearMonth } from "@/types/crimes-street-dates";
 export interface BaseOverviewPageSearchParams {
-  date: string;
+  date: YearMonth;
   type: (typeof OVERVIEW_FILTER_ITEMS)["type"][number]["label"];
   officer_defined_ethnicity: (typeof OVERVIEW_FILTER_ITEMS)["officer_defined_ethnicity"][number]["label"];
 }

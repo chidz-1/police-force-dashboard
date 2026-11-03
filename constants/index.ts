@@ -28,4 +28,6 @@ export const OVERVIEW_FILTER_ITEMS = {
     { label: "Mixed", value: "mixed" },
     { label: "Other", value: "other" },
   ],
-} as const satisfies PageFilters;
+} as const satisfies Partial<PageFilters>;
+
+// Search Types > Page Filters
