@@ -1,10 +1,12 @@
+import { omitBy } from "lodash";
+
+import getSafeRatio from "@/utils/getSafeRatio";
 import {
   AggregatedStats,
   PageDataBuilder,
   PageDataProduct,
 } from "@/lib/PageData/types";
 import { RawStopAndSearchData } from "@/types/stop-and-search";
-import { omitBy } from "lodash";
 import {
   BaseOverviewPageSearchParams,
   BaseOverviewPageSearchParamsSansDate,
@@ -53,25 +55,34 @@ export default class OverviewPageBuilder implements PageDataBuilder<
     const stopTotal = this._stopData.length;
     const statCardData = this._stopData.reduce(
       (accStats, currentStop) => {
-        accStats.arrests.value += currentStop.outcome === "Arrest" ? 1 : 0;
-        accStats.action.value +=
+        accStats.arrests.count += currentStop.outcome === "Arrest" ? 1 : 0;
+        accStats.action.count +=
           currentStop.outcome === "A no further action disposal" ? 1 : 0;
-        accStats.found.value += currentStop.outcome_linked_to_object_of_search
+        accStats.found.count += currentStop.outcome_linked_to_object_of_search
           ? 1
           : 0;
         return accStats;
       },
       {
-        searches: { value: stopTotal },
-        arrests: { value: 0 },
-        action: { value: 0 },
-        found: { value: 0 },
+        searches: { count: stopTotal, value: null },
+        arrests: { count: 0, value: null },
+        action: { count: 0, value: null },
+        found: { count: 0, value: null },
       } as AggregatedStats<OverviewStatsKey>
     );
 
-    statCardData.arrests.value = statCardData.arrests.value / stopTotal;
-    statCardData.action.value = statCardData.action.value / stopTotal;
-    statCardData.action.value = statCardData.found.value / stopTotal;
+    statCardData.arrests.value = getSafeRatio(
+      statCardData.arrests.count,
+      stopTotal
+    );
+    statCardData.action.value = getSafeRatio(
+      statCardData.action.count,
+      stopTotal
+    );
+    statCardData.action.value = getSafeRatio(
+      statCardData.found.count,
+      stopTotal
+    );
 
     this._overviewPageData.stats = statCardData;
   }

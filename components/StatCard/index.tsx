@@ -26,7 +26,9 @@ export default function StatCard(props: StatCardProps) {
         <CardTitle>
           <h2 className="mb-0 text-sm font-semibold">{title}</h2>
         </CardTitle>
-        <CardAction>{<Icon />}</CardAction>
+        <CardAction>
+          <Icon />
+        </CardAction>
       </CardHeader>
       <CardContent>
         <p className="mb-0 text-5xl font-bold">{formatFigure(props)}</p>
@@ -41,13 +43,17 @@ export default function StatCard(props: StatCardProps) {
 }
 
 function formatFigure({ figure, figureType }: StatCardFigureCombinations) {
+  if (figure === null) {
+    return <span aria-label="No data">—</span>;
+  }
+
   switch (figureType) {
     case "plain-number":
       return formatNumber(figure);
     case "percentage":
       return formatPercentage(figure);
     case "text":
-      return figure;
+      return <span>{figure}</span>;
     default:
       ((_: never) => {
         throw new Error(`[StatCard] > [FormatFigure]: Unhandled case ${_}`);
