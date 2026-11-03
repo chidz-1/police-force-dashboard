@@ -1,8 +1,16 @@
-import { Search, ShieldAlert, ShieldCheck, Target } from "lucide-react";
+import {
+  BarChart3,
+  Search,
+  ShieldAlert,
+  ShieldCheck,
+  Target,
+} from "lucide-react";
 
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
+import { Badge } from "@/components/ui/badge";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
+import decorateWithChartCard from "@/utils/decorateWithChartCard";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { OverviewVisualizationsProps } from "./types";
@@ -12,6 +20,8 @@ import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import OverviewPageBuilder from "../../lib/OverviewPageBuilder";
+
+const OverviewChartsCard = decorateWithChartCard(OverviewCharts);
 
 async function OverviewVisualizations({
   searchParams,
@@ -90,8 +100,13 @@ async function OverviewVisualizations({
           />
         )}
       </StatCardsContainer>
-      {/* <OverviewCharts filters={{ date, officer_defined_ethnicity, type }} /> */}
-      {/* <pre>{JSON.stringify(pageData, null, 3)}</pre> */}
+      <OverviewChartsCard
+        title="Searches over time"
+        subTitle="Faux placeholder for chart data"
+        Icon={BarChart3}
+        chartAction={<Badge variant="outline">Sort</Badge>}
+        filters={{ date, officer_defined_ethnicity, type }}
+      />
     </>
   );
 }
