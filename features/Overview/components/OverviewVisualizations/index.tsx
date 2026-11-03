@@ -22,17 +22,19 @@ async function OverviewVisualizations({
   } = await searchParams;
 
   const stopData = await getStopData(monthRange);
+  const rawStopData = getRawStopData(stopData, date);
 
-  const dataBuilder = new OverviewPageBuilder(getRawStopData(stopData, date), {
+  const dataBuilder = new OverviewPageBuilder(rawStopData, {
     officer_defined_ethnicity,
     type,
   });
 
   const pageDataDirector = new PageDataDirector(dataBuilder);
+  const pageData = pageDataDirector.getFullPageData();
 
   return (
     <>
-      <PageFiltersContainer>
+      <PageFiltersContainer numOfResults={pageData.totalNumRecords}>
         <PageFilters
           value={date}
           menuItems={monthFilterMenuItems}
@@ -52,7 +54,7 @@ async function OverviewVisualizations({
         />
       </PageFiltersContainer>
       {/* <OverviewCharts filters={{ date, officer_defined_ethnicity, type }} /> */}
-      <pre>{JSON.stringify(pageDataDirector.getFullPageData(), null, 3)}</pre>
+      <pre>{JSON.stringify(pageData, null, 3)}</pre>
     </>
   );
 }

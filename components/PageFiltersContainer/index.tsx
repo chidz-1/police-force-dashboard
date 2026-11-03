@@ -7,6 +7,7 @@ import { useFilterChange } from "@/features/Providers/hooks/useFilterChange";
 
 export default function PageFiltersContainer({
   children,
+  numOfResults,
 }: PageFiltersContainerProps) {
   const { isPending } = useFilterChange();
 
@@ -15,12 +16,16 @@ export default function PageFiltersContainer({
       <ListFilter />
       <span>Filters</span>
       {children}
-      {isPending ? (
-        <>
-          <Loader2 className="size-4 animate-spin" aria-hidden />
-          <span className="sr-only">Loading...</span>
-        </>
-      ) : null}
+      <span className="flex gap-2">
+        <span className="font-bold">{numOfResults}</span>
+        matching records
+        {isPending ? (
+          <>
+            <Loader2 className="size-4 animate-spin" aria-hidden />
+            <span className="sr-only">Loading...</span>
+          </>
+        ) : null}
+      </span>
     </div>
   );
 }
