@@ -1,6 +1,22 @@
 import decorateWithPagePadding from "@/utils/decorateWithPagePadding";
+import getMonthFilterItems from "@/utils/getMonthFilterItems";
+import { getAvailability } from "@/utils/stopAvailability";
+import { DemographicsPageSearchParams } from "@/features/Demographics/types";
+import DemographicsVisualizations from "@/features/Demographics/components/DemographicsVisualizations";
 
-function DemographicsPage() {
+async function DemographicsPage({
+  searchParams,
+}: {
+  searchParams: DemographicsPageSearchParams;
+}) {
+  const availableMonthRange = await getAvailability();
+
+  if (!availableMonthRange.length) {
+    return <h1>TODO: Component for unavailable data for visualizations</h1>;
+  }
+
+  const monthFilterMenuItems = getMonthFilterItems(availableMonthRange);
+
   return (
     <>
       <h1>Demographics</h1>
@@ -9,7 +25,12 @@ function DemographicsPage() {
         Vehicle-only searches have no demographic data.
       </p>
 
-      {/* TODO: Visualizations component */}
+      <DemographicsVisualizations
+        monthRange={availableMonthRange}
+        searchParams={searchParams}
+        monthFilterMenuItems={monthFilterMenuItems}
+        fallback={<h1 className="text-5xl">LOADING</h1>}
+      />
     </>
   );
 }
