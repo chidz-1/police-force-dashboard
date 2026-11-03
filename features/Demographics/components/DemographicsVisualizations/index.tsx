@@ -65,7 +65,7 @@ async function DemographicsVisualizations({
           urlParamKey="officer_defined_ethnicity"
         />
       </PageFiltersContainer>
-      <StatCardsContainer>
+      <StatCardsContainer className="xl:grid-cols-3">
         {pageData.stats?.male && (
           <StatCard
             title="Male"

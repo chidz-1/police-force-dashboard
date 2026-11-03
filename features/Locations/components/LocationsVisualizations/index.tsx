@@ -64,7 +64,7 @@ async function LocationsVisualizations({
           urlParamKey="outcome"
         />
       </PageFiltersContainer>
-      <StatCardsContainer>
+      <StatCardsContainer className="xl:grid-cols-3">
         {pageData.stats?.locationRecorded && (
           <StatCard
             title="Location recorded"
