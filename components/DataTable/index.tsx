@@ -20,11 +20,7 @@ import {
   TABLE_SEARCHES_COLUMN,
 } from "@/constants";
 import decorateWithChartCard from "@/utils/decorateWithChartCard";
-import {
-  formatFixedPercentage,
-  formatNumber,
-  formatRatio,
-} from "@/utils/formatNumber";
+import { formatFixedPercentage, formatNumber } from "@/utils/formatNumber";
 import { cn } from "cn";
 import { dataTableFeatures } from "./features";
 import Pagination from "./Pagination";
@@ -48,7 +44,9 @@ function ShareCell({ value }: { value: number }) {
           }}
         />
       </div>
-      <span className="text-muted-foreground">{formatRatio(value)}</span>
+      <span className="text-muted-foreground">
+        {formatFixedPercentage(value)}
+      </span>
     </div>
   );
 }
