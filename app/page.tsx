@@ -24,10 +24,6 @@ async function OverviewPage({
         Headline stop and search figures for {getForceFriendlyLabel()} Police
       </p>
 
-      {/* TODO: Resolve the fallback granted it might be too fast to notice */}
-      {/* fallback={<Skeleton className="h-7 w-40" /> */}
-      {/* fallback={<Skeleton className="h-7 w-43" /> */}
-      {/* fallback={<Skeleton className="h-7 w-30" /> */}
       <OverviewVisualizations
         monthRange={availableMonthRange}
         searchParams={searchParams}
