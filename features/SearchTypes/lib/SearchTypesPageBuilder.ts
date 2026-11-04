@@ -82,8 +82,14 @@ export default class SearchTypesPageBuilder implements PageDataBuilder<
   }
 
   setChartData(): void {
-    // TODO: implement chart data aggregation
-    this._searchTypesPageData.chartData = [];
+    this._searchTypesPageData.chartData = this._stopData.map(
+      ({ datetime, type, removal_of_more_than_outer_clothing, operation }) => ({
+        datetime,
+        type,
+        removal_of_more_than_outer_clothing,
+        operation,
+      })
+    );
   }
 
   getProduct(): PageDataProduct<

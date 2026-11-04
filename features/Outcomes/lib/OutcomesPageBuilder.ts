@@ -89,8 +89,12 @@ export default class OutcomesPageBuilder implements PageDataBuilder<
   }
 
   setChartData(): void {
-    // TODO: implement chart data aggregation
-    this._outcomesPageData.chartData = [];
+    this._outcomesPageData.chartData = this._stopData.map(
+      ({ datetime, outcome }) => ({
+        datetime,
+        outcome,
+      })
+    );
   }
 
   getProduct(): PageDataProduct<OutcomesStatsKey, OutcomesChartStopDataKey> {

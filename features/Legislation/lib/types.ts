@@ -1,4 +1,5 @@
 export type LegislationStatsKey =
   "misuseOfDrugsAct" | "paceSection1" | "section60";
 
-export type LegislationChartStopDataKey = "legislation" | "object_of_search";
+export type LegislationChartStopDataKey =
+  "datetime" | "legislation" | "object_of_search";

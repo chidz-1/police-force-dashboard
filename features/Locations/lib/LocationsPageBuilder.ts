@@ -87,8 +87,9 @@ export default class LocationsPageBuilder implements PageDataBuilder<
   }
 
   setChartData(): void {
-    // TODO: implement chart data aggregation
-    this._locationsPageData.chartData = [];
+    this._locationsPageData.chartData = this._stopData.map(({ location }) => ({
+      location,
+    }));
   }
 
   getProduct(): PageDataProduct<LocationsStatsKey, LocationsChartStopDataKey> {

@@ -91,8 +91,14 @@ export default class DemographicsPageBuilder implements PageDataBuilder<
   }
 
   setChartData(): void {
-    // TODO: implement chart data aggregation
-    this._demographicsPageData.chartData = [];
+    this._demographicsPageData.chartData = this._stopData.map(
+      ({ datetime, gender, age_range, officer_defined_ethnicity }) => ({
+        datetime,
+        gender,
+        age_range,
+        officer_defined_ethnicity,
+      })
+    );
   }
 
   getProduct(): PageDataProduct<

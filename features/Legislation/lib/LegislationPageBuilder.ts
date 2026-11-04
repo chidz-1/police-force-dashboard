@@ -98,8 +98,13 @@ export default class LegislationPageBuilder implements PageDataBuilder<
   }
 
   setChartData(): void {
-    // TODO: implement chart data aggregation
-    this._legislationPageData.chartData = [];
+    this._legislationPageData.chartData = this._stopData.map(
+      ({ datetime, legislation, object_of_search }) => ({
+        datetime,
+        legislation,
+        object_of_search,
+      })
+    );
   }
 
   getProduct(): PageDataProduct<

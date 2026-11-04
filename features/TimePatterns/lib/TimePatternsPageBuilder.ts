@@ -104,8 +104,9 @@ export default class TimePatternsPageBuilder implements PageDataBuilder<
   }
 
   setChartData(): void {
-    // TODO: implement chart data aggregation
-    this._timePatternsPageData.chartData = [];
+    this._timePatternsPageData.chartData = this._stopData.map(
+      ({ datetime }) => ({ datetime })
+    );
   }
 
   getProduct(): PageDataProduct<
