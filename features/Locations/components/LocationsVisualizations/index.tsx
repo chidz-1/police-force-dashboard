@@ -1,5 +1,6 @@
 import { MapPin, MapPinOff, Navigation, Signpost } from "lucide-react";
 
+import DataTable from "@/components/DataTable";
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
 import RankedBarList from "@/components/charts/RankedBarList";
@@ -15,6 +16,7 @@ import getRankedCounts from "@/utils/getRankedCounts";
 import getStreetName from "@/utils/getStreetName";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import LocationsPageBuilder from "../../lib/LocationsPageBuilder";
+import { LOCATIONS_TABLE_COLUMNS } from "../../constants";
 
 async function LocationsVisualizations({
   searchParams,
@@ -102,13 +104,23 @@ async function LocationsVisualizations({
           />
         )}
       </StatCardsContainer>
-      <RankedBarList
-        className="h-auto"
-        title="Top streets"
-        subTitle="Streets with the most searches"
-        Icon={<Signpost className="size-4" />}
-        items={topStreetCounts}
-      />
+      <div className="flex flex-col gap-4">
+        <RankedBarList
+          className="h-auto"
+          title="Top streets"
+          subTitle="Streets with the most searches"
+          Icon={<Signpost className="size-4" />}
+          items={topStreetCounts}
+        />
+        <DataTable
+          title="All locations"
+          subTitle="Every street-level location with searches in the selected period"
+          Icon={<MapPin className="size-4" />}
+          data={pageData.tableData ?? []}
+          columns={LOCATIONS_TABLE_COLUMNS}
+          searchable
+        />
+      </div>
     </>
   );
 }

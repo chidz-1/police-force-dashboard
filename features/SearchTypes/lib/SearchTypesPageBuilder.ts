@@ -1,6 +1,8 @@
 import { omitBy } from "lodash";
 
 import getSafeRatio from "@/utils/getSafeRatio";
+import getBreakdownRows from "@/utils/getBreakdownRows";
+import { isArrest } from "@/utils/stopPredicates";
 import {
   AggregatedStats,
   PageDataBuilder,
@@ -11,15 +13,21 @@ import {
   BaseSearchTypesPageSearchParams,
   BaseSearchTypesPageSearchParamsSansDate,
 } from "../types";
-import { SearchTypesChartStopDataKey, SearchTypesStatsKey } from "./types";
+import {
+  SearchTypesChartStopDataKey,
+  SearchTypesStatsKey,
+  SearchTypesTableRow,
+} from "./types";
 
 export default class SearchTypesPageBuilder implements PageDataBuilder<
   SearchTypesStatsKey,
-  SearchTypesChartStopDataKey
+  SearchTypesChartStopDataKey,
+  SearchTypesTableRow
 > {
   private _searchTypesPageData: PageDataProduct<
     SearchTypesStatsKey,
-    SearchTypesChartStopDataKey
+    SearchTypesChartStopDataKey,
+    SearchTypesTableRow
   >;
   private _stopData: RawStopAndSearchData;
 
@@ -92,9 +100,23 @@ export default class SearchTypesPageBuilder implements PageDataBuilder<
     );
   }
 
+  setTableData(): void {
+    this._searchTypesPageData.tableData = getBreakdownRows(
+      this._stopData,
+      ({ type }) => type,
+      {
+        arrestRate: isArrest,
+        operationRate: ({ operation }) => operation === true,
+        clothingRemovedRate: ({ removal_of_more_than_outer_clothing }) =>
+          removal_of_more_than_outer_clothing === true,
+      }
+    );
+  }
+
   getProduct(): PageDataProduct<
     SearchTypesStatsKey,
-    SearchTypesChartStopDataKey
+    SearchTypesChartStopDataKey,
+    SearchTypesTableRow
   > {
     return this._searchTypesPageData;
   }

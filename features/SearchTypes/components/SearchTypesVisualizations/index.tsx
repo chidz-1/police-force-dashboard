@@ -8,6 +8,7 @@ import {
   User,
 } from "lucide-react";
 
+import DataTable from "@/components/DataTable";
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
 import MultiSeriesTrendChart from "@/components/charts/MultiSeriesTrendChart";
@@ -26,6 +27,7 @@ import getRawStopData from "@/utils/getRawStopData";
 import aggregateByMonth from "@/utils/aggregateByMonth";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import SearchTypesPageBuilder from "../../lib/SearchTypesPageBuilder";
+import { SEARCH_TYPES_TABLE_COLUMNS } from "../../constants";
 
 async function SearchTypesVisualizations({
   searchParams,
@@ -196,6 +198,13 @@ async function SearchTypesVisualizations({
             data={operationInvolvementCounts}
           />
         </div>
+        <DataTable
+          title="Search type comparison"
+          subTitle="Volume and outcome rates by search type"
+          Icon={<Layers className="size-4" />}
+          data={pageData.tableData ?? []}
+          columns={SEARCH_TYPES_TABLE_COLUMNS}
+        />
       </div>
     </>
   );

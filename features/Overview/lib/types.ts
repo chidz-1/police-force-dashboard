@@ -1,3 +1,5 @@
+import { BreakdownRowWithRates } from "@/lib/PageData/types";
+
 export type OverviewStatsKey = "searches" | "arrests" | "action" | "found";
 export type OverviewChartStopDataKey =
   | "datetime"
@@ -6,3 +8,5 @@ export type OverviewChartStopDataKey =
   | "object_of_search"
   | "outcome"
   | "legislation";
+
+export type OverviewTableRow = BreakdownRowWithRates<"arrestRate">;

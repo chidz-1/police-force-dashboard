@@ -1,6 +1,9 @@
 import { omitBy } from "lodash";
 
 import getSafeRatio from "@/utils/getSafeRatio";
+import getBreakdownRows from "@/utils/getBreakdownRows";
+import { isDrugSearch, isLinkedToObject } from "@/utils/stopPredicates";
+import { NOT_RECORDED_LABEL } from "@/constants";
 import {
   AggregatedStats,
   PageDataBuilder,
@@ -11,15 +14,21 @@ import {
   BaseOutcomesPageSearchParams,
   BaseOutcomesPageSearchParamsSansDate,
 } from "../types";
-import { OutcomesChartStopDataKey, OutcomesStatsKey } from "./types";
+import {
+  OutcomesChartStopDataKey,
+  OutcomesStatsKey,
+  OutcomesTableRow,
+} from "./types";
 
 export default class OutcomesPageBuilder implements PageDataBuilder<
   OutcomesStatsKey,
-  OutcomesChartStopDataKey
+  OutcomesChartStopDataKey,
+  OutcomesTableRow
 > {
   private _outcomesPageData: PageDataProduct<
     OutcomesStatsKey,
-    OutcomesChartStopDataKey
+    OutcomesChartStopDataKey,
+    OutcomesTableRow
   >;
   private _stopData: RawStopAndSearchData;
 
@@ -97,7 +106,19 @@ export default class OutcomesPageBuilder implements PageDataBuilder<
     );
   }
 
-  getProduct(): PageDataProduct<OutcomesStatsKey, OutcomesChartStopDataKey> {
+  setTableData(): void {
+    this._outcomesPageData.tableData = getBreakdownRows(
+      this._stopData,
+      ({ outcome }) => outcome || NOT_RECORDED_LABEL,
+      { linkedToObjectRate: isLinkedToObject, drugSearchRate: isDrugSearch }
+    );
+  }
+
+  getProduct(): PageDataProduct<
+    OutcomesStatsKey,
+    OutcomesChartStopDataKey,
+    OutcomesTableRow
+  > {
     return this._outcomesPageData;
   }
 }

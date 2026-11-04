@@ -1,21 +1,30 @@
 import { countBy, omitBy } from "lodash";
 
 import getSafeRatio from "@/utils/getSafeRatio";
+import getBreakdownRows from "@/utils/getBreakdownRows";
+import { isArrest, isNoFurtherAction } from "@/utils/stopPredicates";
+import { NOT_RECORDED_LABEL } from "@/constants";
 import { PageDataBuilder, PageDataProduct } from "@/lib/PageData/types";
 import { RawStopAndSearchData } from "@/types/stop-and-search";
 import {
   BaseDemographicsPageSearchParams,
   BaseDemographicsPageSearchParamsSansDate,
 } from "../types";
-import { DemographicsChartStopDataKey, DemographicsStatsKey } from "./types";
+import {
+  DemographicsChartStopDataKey,
+  DemographicsStatsKey,
+  DemographicsTableRow,
+} from "./types";
 
 export default class DemographicsPageBuilder implements PageDataBuilder<
   DemographicsStatsKey,
-  DemographicsChartStopDataKey
+  DemographicsChartStopDataKey,
+  DemographicsTableRow
 > {
   private _demographicsPageData: PageDataProduct<
     DemographicsStatsKey,
-    DemographicsChartStopDataKey
+    DemographicsChartStopDataKey,
+    DemographicsTableRow
   >;
   private _stopData: RawStopAndSearchData;
 
@@ -101,9 +110,24 @@ export default class DemographicsPageBuilder implements PageDataBuilder<
     );
   }
 
+  setTableData(): void {
+    this._demographicsPageData.tableData = getBreakdownRows(
+      this._stopData,
+      ({ officer_defined_ethnicity }) =>
+        officer_defined_ethnicity ?? NOT_RECORDED_LABEL,
+      {
+        maleRate: ({ gender }) => gender === "Male",
+        agedTenToSeventeenRate: ({ age_range }) => age_range === "10-17",
+        arrestRate: isArrest,
+        noFurtherActionRate: isNoFurtherAction,
+      }
+    );
+  }
+
   getProduct(): PageDataProduct<
     DemographicsStatsKey,
-    DemographicsChartStopDataKey
+    DemographicsChartStopDataKey,
+    DemographicsTableRow
   > {
     return this._demographicsPageData;
   }

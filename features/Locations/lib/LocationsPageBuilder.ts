@@ -1,6 +1,8 @@
-import { countBy, omitBy } from "lodash";
+import { countBy, groupBy, omitBy } from "lodash";
 
 import getSafeRatio from "@/utils/getSafeRatio";
+import { getBreakdownSummary } from "@/utils/getBreakdownRows";
+import { isArrest, isDrugSearch } from "@/utils/stopPredicates";
 import getStreetName from "@/utils/getStreetName";
 import { PageDataBuilder, PageDataProduct } from "@/lib/PageData/types";
 import { RawStopAndSearchData } from "@/types/stop-and-search";
@@ -8,15 +10,21 @@ import {
   BaseLocationsPageSearchParams,
   BaseLocationsPageSearchParamsSansDate,
 } from "../types";
-import { LocationsChartStopDataKey, LocationsStatsKey } from "./types";
+import {
+  LocationsChartStopDataKey,
+  LocationsStatsKey,
+  LocationsTableRow,
+} from "./types";
 
 export default class LocationsPageBuilder implements PageDataBuilder<
   LocationsStatsKey,
-  LocationsChartStopDataKey
+  LocationsChartStopDataKey,
+  LocationsTableRow
 > {
   private _locationsPageData: PageDataProduct<
     LocationsStatsKey,
-    LocationsChartStopDataKey
+    LocationsChartStopDataKey,
+    LocationsTableRow
   >;
   private _stopData: RawStopAndSearchData;
 
@@ -92,7 +100,37 @@ export default class LocationsPageBuilder implements PageDataBuilder<
     }));
   }
 
-  getProduct(): PageDataProduct<LocationsStatsKey, LocationsChartStopDataKey> {
+  // Grouped by street id: one street name can cover several real locations
+  setTableData(): void {
+    const withLocation = this._stopData.filter(
+      (stop) => stop.location !== null
+    );
+    const stopsByStreetId = groupBy(
+      withLocation,
+      (stop) => stop.location!.street.id
+    );
+
+    this._locationsPageData.tableData = Object.values(stopsByStreetId).map(
+      (stops) => {
+        const { street, latitude, longitude } = stops[0].location!;
+
+        return {
+          label: getStreetName(street.name),
+          coordinates: `${Number(latitude).toFixed(4)}, ${Number(longitude).toFixed(4)}`,
+          ...getBreakdownSummary(stops, withLocation.length, {
+            arrestRate: isArrest,
+            drugSearchRate: isDrugSearch,
+          }),
+        };
+      }
+    );
+  }
+
+  getProduct(): PageDataProduct<
+    LocationsStatsKey,
+    LocationsChartStopDataKey,
+    LocationsTableRow
+  > {
     return this._locationsPageData;
   }
 }

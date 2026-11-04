@@ -1,6 +1,9 @@
 import { omitBy } from "lodash";
 
 import getSafeRatio from "@/utils/getSafeRatio";
+import getBreakdownRows from "@/utils/getBreakdownRows";
+import { isArrest, isLinkedToObject } from "@/utils/stopPredicates";
+import { NOT_RECORDED_LABEL } from "@/constants";
 import {
   AggregatedStats,
   PageDataBuilder,
@@ -11,15 +14,21 @@ import {
   BaseLegislationPageSearchParams,
   BaseLegislationPageSearchParamsSansDate,
 } from "../types";
-import { LegislationChartStopDataKey, LegislationStatsKey } from "./types";
+import {
+  LegislationChartStopDataKey,
+  LegislationStatsKey,
+  LegislationTableRow,
+} from "./types";
 
 export default class LegislationPageBuilder implements PageDataBuilder<
   LegislationStatsKey,
-  LegislationChartStopDataKey
+  LegislationChartStopDataKey,
+  LegislationTableRow
 > {
   private _legislationPageData: PageDataProduct<
     LegislationStatsKey,
-    LegislationChartStopDataKey
+    LegislationChartStopDataKey,
+    LegislationTableRow
   >;
   private _stopData: RawStopAndSearchData;
 
@@ -107,9 +116,18 @@ export default class LegislationPageBuilder implements PageDataBuilder<
     );
   }
 
+  setTableData(): void {
+    this._legislationPageData.tableData = getBreakdownRows(
+      this._stopData,
+      ({ object_of_search }) => object_of_search ?? NOT_RECORDED_LABEL,
+      { findRate: isLinkedToObject, arrestRate: isArrest }
+    );
+  }
+
   getProduct(): PageDataProduct<
     LegislationStatsKey,
-    LegislationChartStopDataKey
+    LegislationChartStopDataKey,
+    LegislationTableRow
   > {
     return this._legislationPageData;
   }

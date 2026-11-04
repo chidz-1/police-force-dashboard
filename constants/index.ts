@@ -6,6 +6,26 @@ export const API_KNOWN_BURST_LIMIT = 3;
 export const API_BURST_MITIGATION_DELAY = 300; // ms
 
 export const GLOBAL_ALL_FILTER_VALUE = "all";
+export const NOT_RECORDED_LABEL = "Not recorded";
+
+export const TABLE_PAGE_SIZE_OPTIONS = [5, 10, 25, 50];
+export const DEFAULT_TABLE_PAGE_SIZE = 10;
+
+export const TABLE_SEARCHES_COLUMN = {
+  key: "searches",
+  header: "Searches",
+  format: "number",
+} as const;
+export const TABLE_SHARE_COLUMN = {
+  key: "share",
+  header: "Share",
+  format: "share",
+} as const;
+export const TABLE_ARREST_RATE_COLUMN = {
+  key: "arrestRate",
+  header: "Arrest rate",
+  format: "percentage",
+} as const;
 
 export const CARD_ICON_CHIP_CLASSNAME =
   "flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground";

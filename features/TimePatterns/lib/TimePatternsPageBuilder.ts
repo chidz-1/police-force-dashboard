@@ -1,6 +1,9 @@
 import { countBy, omitBy } from "lodash";
 
 import getSafeRatio from "@/utils/getSafeRatio";
+import getBreakdownRows from "@/utils/getBreakdownRows";
+import { isArrest } from "@/utils/stopPredicates";
+import isNightTime from "../utils/isNightTime";
 import formatHour from "@/utils/formatHour";
 import { PageDataBuilder, PageDataProduct } from "@/lib/PageData/types";
 import { RawStopAndSearchData } from "@/types/stop-and-search";
@@ -9,15 +12,21 @@ import {
   BaseTimePatternsPageSearchParams,
   BaseTimePatternsPageSearchParamsSansDate,
 } from "../types";
-import { TimePatternsChartStopDataKey, TimePatternsStatsKey } from "./types";
+import {
+  TimePatternsChartStopDataKey,
+  TimePatternsStatsKey,
+  TimePatternsTableRow,
+} from "./types";
 
 export default class TimePatternsPageBuilder implements PageDataBuilder<
   TimePatternsStatsKey,
-  TimePatternsChartStopDataKey
+  TimePatternsChartStopDataKey,
+  TimePatternsTableRow
 > {
   private _timePatternsPageData: PageDataProduct<
     TimePatternsStatsKey,
-    TimePatternsChartStopDataKey
+    TimePatternsChartStopDataKey,
+    TimePatternsTableRow
   >;
   private _stopData: RawStopAndSearchData;
 
@@ -71,10 +80,9 @@ export default class TimePatternsPageBuilder implements PageDataBuilder<
       ["", 0] as [string, number]
     );
 
-    const nightTimeCount = this._stopData.filter((stop) => {
-      const hour = new Date(stop.datetime).getHours();
-      return hour >= 22 || hour < 6;
-    }).length;
+    const nightTimeCount = this._stopData.filter(({ datetime }) =>
+      isNightTime(datetime)
+    ).length;
 
     const weekendCount = this._stopData.filter((stop) => {
       const day = new Date(stop.datetime).getDay();
@@ -109,9 +117,21 @@ export default class TimePatternsPageBuilder implements PageDataBuilder<
     );
   }
 
+  setTableData(): void {
+    this._timePatternsPageData.tableData = getBreakdownRows(
+      this._stopData,
+      ({ datetime }) => DAY_LABELS[new Date(datetime).getDay()],
+      {
+        nightTimeRate: ({ datetime }) => isNightTime(datetime),
+        arrestRate: isArrest,
+      }
+    );
+  }
+
   getProduct(): PageDataProduct<
     TimePatternsStatsKey,
-    TimePatternsChartStopDataKey
+    TimePatternsChartStopDataKey,
+    TimePatternsTableRow
   > {
     return this._timePatternsPageData;
   }

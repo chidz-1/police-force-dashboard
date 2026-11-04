@@ -1,4 +1,5 @@
 import {
+  Target,
   FileText,
   Package,
   Scale,
@@ -6,6 +7,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+import DataTable from "@/components/DataTable";
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
 import RankedBarList from "@/components/charts/RankedBarList";
@@ -21,7 +23,10 @@ import aggregateByMonth from "@/utils/aggregateByMonth";
 import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import LegislationPageBuilder from "../../lib/LegislationPageBuilder";
-import { TOP_LEGISLATION_SERIES_COUNT } from "../../constants";
+import {
+  TOP_LEGISLATION_SERIES_COUNT,
+  LEGISLATION_TABLE_COLUMNS,
+} from "../../constants";
 
 async function LegislationVisualizations({
   searchParams,
@@ -149,6 +154,14 @@ async function LegislationVisualizations({
           defaultMode="trend"
           data={legislationOverTime}
           series={legislationSeries}
+        />
+        <DataTable
+          title="Object of search effectiveness"
+          subTitle="How often the outcome was linked to what was searched for"
+          Icon={<Target className="size-4" />}
+          data={pageData.tableData ?? []}
+          columns={LEGISLATION_TABLE_COLUMNS}
+          searchable
         />
       </div>
     </>

@@ -1,6 +1,9 @@
 import { omitBy } from "lodash";
 
 import getSafeRatio from "@/utils/getSafeRatio";
+import getBreakdownRows from "@/utils/getBreakdownRows";
+import { isArrest } from "@/utils/stopPredicates";
+import { NOT_RECORDED_LABEL } from "@/constants";
 import {
   AggregatedStats,
   PageDataBuilder,
@@ -11,15 +14,21 @@ import {
   BaseOverviewPageSearchParams,
   BaseOverviewPageSearchParamsSansDate,
 } from "../types";
-import { OverviewChartStopDataKey, OverviewStatsKey } from "./types";
+import {
+  OverviewChartStopDataKey,
+  OverviewStatsKey,
+  OverviewTableRow,
+} from "./types";
 
 export default class OverviewPageBuilder implements PageDataBuilder<
   OverviewStatsKey,
-  OverviewChartStopDataKey
+  OverviewChartStopDataKey,
+  OverviewTableRow
 > {
   private _overviewPageData: PageDataProduct<
     OverviewStatsKey,
-    OverviewChartStopDataKey
+    OverviewChartStopDataKey,
+    OverviewTableRow
   >;
   private _stopData: RawStopAndSearchData;
 
@@ -107,7 +116,19 @@ export default class OverviewPageBuilder implements PageDataBuilder<
     );
   }
 
-  getProduct(): PageDataProduct<OverviewStatsKey, OverviewChartStopDataKey> {
+  setTableData(): void {
+    this._overviewPageData.tableData = getBreakdownRows(
+      this._stopData,
+      ({ legislation }) => legislation ?? NOT_RECORDED_LABEL,
+      { arrestRate: isArrest }
+    );
+  }
+
+  getProduct(): PageDataProduct<
+    OverviewStatsKey,
+    OverviewChartStopDataKey,
+    OverviewTableRow
+  > {
     return this._overviewPageData;
   }
 }

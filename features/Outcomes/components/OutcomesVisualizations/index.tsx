@@ -8,6 +8,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+import DataTable from "@/components/DataTable";
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
 import MultiSeriesTrendChart from "@/components/charts/MultiSeriesTrendChart";
@@ -24,7 +25,7 @@ import aggregateByMonth from "@/utils/aggregateByMonth";
 import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import OutcomesPageBuilder from "../../lib/OutcomesPageBuilder";
-import { OUTCOME_TREND_SERIES } from "../../constants";
+import { OUTCOME_TREND_SERIES, OUTCOMES_TABLE_COLUMNS } from "../../constants";
 
 function getOutcomeLabel(outcome: string | false): string | null {
   return outcome === "" || outcome === false ? null : outcome;
@@ -182,6 +183,13 @@ async function OutcomesVisualizations({
           subTitle="All recorded outcomes"
           Icon={<ClipboardList className="size-4" />}
           items={outcomeBreakdownCounts}
+        />
+        <DataTable
+          title="Outcome detail"
+          subTitle="Volume per outcome and how often it was linked to the object of search"
+          Icon={<ClipboardList className="size-4" />}
+          data={pageData.tableData ?? []}
+          columns={OUTCOMES_TABLE_COLUMNS}
         />
       </div>
     </>

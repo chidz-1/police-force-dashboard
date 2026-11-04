@@ -1,4 +1,5 @@
 import {
+  Gavel,
   ChartPie,
   Gauge,
   Package,
@@ -9,6 +10,7 @@ import {
   TrendingUp,
 } from "lucide-react";
 
+import DataTable from "@/components/DataTable";
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
 import MultiSeriesTrendChart from "@/components/charts/MultiSeriesTrendChart";
@@ -30,6 +32,7 @@ import aggregateByMonth from "@/utils/aggregateByMonth";
 import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import OverviewPageBuilder from "../../lib/OverviewPageBuilder";
+import { OVERVIEW_TABLE_COLUMNS } from "../../constants";
 
 async function OverviewVisualizations({
   searchParams,
@@ -173,6 +176,14 @@ async function OverviewVisualizations({
             />
           </div>
         </div>
+        <DataTable
+          title="Legislation used"
+          subTitle="Powers used to conduct searches, with arrest rate"
+          Icon={<Gavel className="size-4" />}
+          data={pageData.tableData ?? []}
+          columns={OVERVIEW_TABLE_COLUMNS}
+          defaultPageSize={5}
+        />
       </div>
     </>
   );

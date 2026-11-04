@@ -1,5 +1,6 @@
 import { Baby, CalendarRange, TrendingUp, User, Users } from "lucide-react";
 
+import DataTable from "@/components/DataTable";
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
 import DonutStat from "@/components/charts/DonutStat";
@@ -23,7 +24,10 @@ import getRankedCounts from "@/utils/getRankedCounts";
 import getCategoryCounts from "@/utils/getCategoryCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import DemographicsPageBuilder from "../../lib/DemographicsPageBuilder";
-import { TOP_ETHNICITY_SERIES_COUNT } from "../../constants";
+import {
+  TOP_ETHNICITY_SERIES_COUNT,
+  DEMOGRAPHICS_TABLE_COLUMNS,
+} from "../../constants";
 
 async function DemographicsVisualizations({
   searchParams,
@@ -175,6 +179,13 @@ async function DemographicsVisualizations({
           defaultMode="stacked"
           data={ethnicityOverTime}
           series={ethnicitySeries}
+        />
+        <DataTable
+          title="Ethnicity breakdown"
+          subTitle="Profile and outcomes for each officer-defined ethnicity"
+          Icon={<Users className="size-4" />}
+          data={pageData.tableData ?? []}
+          columns={DEMOGRAPHICS_TABLE_COLUMNS}
         />
       </div>
     </>

@@ -1,5 +1,6 @@
 import { Calendar, Clock, Moon, Sun, TrendingUp } from "lucide-react";
 
+import DataTable from "@/components/DataTable";
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
 import CategoryBarChart from "@/components/charts/CategoryBarChart";
@@ -21,13 +22,9 @@ import { formatPercentage } from "@/utils/formatNumber";
 import aggregateByMonth from "@/utils/aggregateByMonth";
 import getCategoryCounts from "@/utils/getCategoryCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
+import isNightTime from "../../utils/isNightTime";
 import TimePatternsPageBuilder from "../../lib/TimePatternsPageBuilder";
-import { DAY_NIGHT_SERIES } from "../../constants";
-
-function isNightTime(datetime: string): boolean {
-  const hour = new Date(datetime).getHours();
-  return hour >= 22 || hour < 6;
-}
+import { DAY_NIGHT_SERIES, TIME_PATTERNS_TABLE_COLUMNS } from "../../constants";
 
 async function TimePatternsVisualizations({
   searchParams,
@@ -172,6 +169,15 @@ async function TimePatternsVisualizations({
             series={DAY_NIGHT_SERIES}
           />
         </div>
+        <DataTable
+          title="Day of week detail"
+          subTitle="Volume, night-time share and arrest rate per weekday"
+          Icon={<Calendar className="size-4" />}
+          data={pageData.tableData ?? []}
+          columns={TIME_PATTERNS_TABLE_COLUMNS}
+          defaultPageSize={7}
+          defaultSort={{ key: "label", desc: false }}
+        />
       </div>
     </>
   );
