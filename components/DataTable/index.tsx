@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, ChevronsUpDown, Search } from "lucide-react";
 import { useTable } from "@tanstack/react-table";
 
+import MapThumbnail from "@/components/MapThumbnail";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -20,6 +21,7 @@ import {
   TABLE_SEARCHES_COLUMN,
 } from "@/constants";
 import decorateWithChartCard from "@/utils/decorateWithChartCard";
+import getCoordinateLabels from "@/utils/getCoordinateLabels";
 import { formatFixedPercentage, formatNumber } from "@/utils/formatNumber";
 import { cn } from "cn";
 import { dataTableFeatures } from "./features";
@@ -51,7 +53,11 @@ function ShareCell({ value }: { value: number }) {
   );
 }
 
-function renderCell(format: DataTableColumnFormat, value: string | number) {
+function renderCell(
+  format: DataTableColumnFormat,
+  value: string | number,
+  rowLabel: string
+) {
   switch (format) {
     case "text":
       return <span className="font-medium">{value}</span>;
@@ -61,6 +67,21 @@ function renderCell(format: DataTableColumnFormat, value: string | number) {
       return formatFixedPercentage(Number(value));
     case "share":
       return <ShareCell value={Number(value)} />;
+    case "map": {
+      const { shortLatitudeLabel, shortLongitudeLabel } = getCoordinateLabels(
+        String(value)
+      );
+
+      return (
+        <div className="flex items-center gap-2">
+          <MapThumbnail label={rowLabel} coordinates={String(value)} />
+          <div className="flex flex-col font-medium">
+            <span>{shortLatitudeLabel}</span>
+            <span>{shortLongitudeLabel}</span>
+          </div>
+        </div>
+      );
+    }
     default:
       ((_: never) => {
         throw new Error(`[DataTable] > [renderCell]: Unhandled case ${_}`);
@@ -176,7 +197,11 @@ function DataTableBody({
                       key={key}
                       className={cn(isRightAligned(format) && "text-right")}
                     >
-                      {renderCell(format, row.original[key])}
+                      {renderCell(
+                        format,
+                        row.original[key],
+                        String(row.original[columns[0].key])
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>

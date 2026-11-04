@@ -12,5 +12,5 @@ export const LOCATIONS_TABLE_COLUMNS = [
   TABLE_SHARE_COLUMN,
   TABLE_ARREST_RATE_COLUMN,
   { key: "drugSearchRate", header: "Drug searches", format: "percentage" },
-  { key: "coordinates", header: "Lat, Lng", format: "text" },
+  { key: "coordinates", header: "Coordinates", format: "map" },
 ] as const satisfies readonly DataTableColumn<LocationsTableRow>[];

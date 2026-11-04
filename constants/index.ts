@@ -8,6 +8,12 @@ export const API_BURST_MITIGATION_DELAY = 300; // ms
 export const GLOBAL_ALL_FILTER_VALUE = "all";
 export const NOT_RECORDED_LABEL = "Not recorded";
 
+export const MAP_TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
+export const MAP_ATTRIBUTION =
+  '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors';
+export const MAP_THUMBNAIL_ZOOM = 15;
+export const MAP_DIALOG_ZOOM = 16;
+
 export const TABLE_PAGE_SIZE_OPTIONS = [5, 10, 25, 50];
 export const DEFAULT_TABLE_PAGE_SIZE = 10;
 

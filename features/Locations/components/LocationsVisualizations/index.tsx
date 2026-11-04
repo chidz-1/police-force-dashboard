@@ -120,6 +120,17 @@ async function LocationsVisualizations({
           columns={LOCATIONS_TABLE_COLUMNS}
           searchable
         />
+        <p className="mb-0 text-right text-xs text-muted-foreground">
+          Map data &copy;{" "}
+          <a
+            href="https://www.openstreetmap.org/copyright"
+            className="underline"
+          >
+            OpenStreetMap
+          </a>{" "}
+          contributors. Map tiles load from OpenStreetMap, which receives your
+          IP address.
+        </p>
       </div>
     </>
   );

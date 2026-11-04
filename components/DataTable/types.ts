@@ -2,7 +2,8 @@ import { ChartCardProps } from "@/utils/decorateWithChartCard";
 
 export type DataTableRow = Record<string, string | number>;
 
-export type DataTableColumnFormat = "text" | "number" | "percentage" | "share";
+export type DataTableColumnFormat =
+  "text" | "number" | "percentage" | "share" | "map";
 
 export interface DataTableColumn<TRow extends DataTableRow = DataTableRow> {
   key: keyof TRow & string;

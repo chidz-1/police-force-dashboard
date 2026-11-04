@@ -27,3 +27,8 @@ import { Button } from "@/components/ui/button";
 
 - Problem: Documented as 30, in reality it's circa 5
 - Solution: Staggered API calls to fetch multiple Stops by date (trade-off is it increases fetch time)     
+
+
+## Performance Improvements
+
+- More code splitting: Done for the table street map using Next.JS' <dynamic> component but there is a case for charts to reduce client component size per route

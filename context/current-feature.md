@@ -1,28 +1,28 @@
 # Current Feature
 
-Data tables on every visualization page
+Locations mini map
 
 ## Status
 
-In Progress
+Completed
 
 ## Goals
 
-- Add a table as the last child of each `*Visualizations` component, using @context/screenshots/tables/ (filename = page)
-- Reusable component in @components/, decorated with `decorateWithChartCard`
-- Responsive, with sorting, search filtering and pagination
-- No-results state per @context/screenshots/tables/no-data-example.png
-- Shadcn/ui table + @tanstack/react-table
-- New `setTableData()` build step on every page builder
+- Show a small map tile with a location marker in the Lat,Lng column of the All locations table
+- Clicking the tile opens a closable dialog with an interactive map
+- Respect the light and dark themes and stay responsive
 
 ## Notes
 
-- Design pattern: Builder (`setTableData()`) and Decorator (`decorateWithChartCard`)
-- Column config is serializable (format names, not cell functions) so it can cross the server -> client boundary
-- Locations rows group by `street.id`: 10 street names in Aug 2026 cover several real locations, so a per-name row has no single Lat,Lng
-- Mini map on the Lat,Lng column: feasibility only, not implemented
-- Verified in headless Chromium against a production build: sorting, search, no results, pagination, page size, 375px, 768px, dark mode
+- Design pattern: Façade (`getMapTile` hides the coordinate to tile maths)
+- OpenStreetMap tiles load directly: this is a private portfolio site, so no tile proxy
+- A public launch would need a hosted tile provider and a privacy notice
+- Coordinates are parsed from the existing `coordinates` string, so the row payload doesn't grow
+- Leaflet is lazy loaded so it adds nothing to the initial page load
 
 ## History
 
 <!-- Keep this updated with feature file completed. Earliest to latest -->
+
+- Data tables: reusable `DataTable` on all seven pages with sorting, search, pagination and a `setTableData()` builder step
+- Locations mini map: OpenStreetMap tile thumbnails in the All locations table, with a lazy-loaded Leaflet map in a dialog
