@@ -9,15 +9,15 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { CARD_ICON_CHIP_CLASSNAME } from "@/constants";
+import { cn } from "cn";
 
 export type ChartCardProps = {
   title: string;
   subTitle?: string;
   chartAction?: React.ReactNode;
-  // A pre-rendered icon element (e.g. <TrendingUp className="size-4" />),
-  // not a component reference: a component reference can't cross the
-  // server -> client boundary, since every chart card is "use client".
   Icon?: React.ReactNode;
+  // Defaults to h-full; standalone charts (no grid siblings) should pass "h-auto".
+  className?: string;
 };
 
 export default function decorateWithChartCard<P extends object>(
@@ -28,10 +28,11 @@ export default function decorateWithChartCard<P extends object>(
     subTitle,
     chartAction,
     Icon,
+    className = "h-full",
     ...baseComponentProps
   }: P & ChartCardProps) {
     return (
-      <Card className="px-4">
+      <Card className={cn("px-4", className)}>
         <CardHeader>
           <CardTitle>
             <h2 className="mb-0 flex items-center gap-2 text-sm font-semibold">
@@ -42,7 +43,7 @@ export default function decorateWithChartCard<P extends object>(
           {subTitle && <CardDescription>{subTitle}</CardDescription>}
           {chartAction && <CardAction>{chartAction}</CardAction>}
         </CardHeader>
-        <CardContent>
+        <CardContent className="flex flex-1 flex-col justify-center">
           <ComponentToDecorate {...(baseComponentProps as P)} />
         </CardContent>
       </Card>

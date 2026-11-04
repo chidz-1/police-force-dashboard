@@ -160,40 +160,42 @@ async function SearchTypesVisualizations({
           />
         )}
       </StatCardsContainer>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="md:col-span-2">
-          <MultiSeriesTrendChart
-            title="Search types over time"
-            subTitle="Monthly volume for each search type"
-            Icon={<TrendingUp className="size-4" />}
-            defaultMode="grouped"
-            data={searchTypesOverTime}
-            series={SEARCH_TYPE_SERIES}
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="md:col-span-2">
+            <MultiSeriesTrendChart
+              title="Search types over time"
+              subTitle="Monthly volume for each search type"
+              Icon={<TrendingUp className="size-4" />}
+              defaultMode="grouped"
+              data={searchTypesOverTime}
+              series={SEARCH_TYPE_SERIES}
+            />
+          </div>
+          <DonutStat
+            title="Type split"
+            subTitle="Share of searches by type"
+            Icon={<ChartPie className="size-4" />}
+            centerLabel="Searches"
+            data={typeSplitCounts}
           />
         </div>
-        <DonutStat
-          title="Type split"
-          subTitle="Share of searches by type"
-          Icon={<ChartPie className="size-4" />}
-          centerLabel="Searches"
-          data={typeSplitCounts}
-        />
-      </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <DonutStat
-          title="Removal of clothing"
-          subTitle="Searches involving removal of more than outer clothing"
-          Icon={<Shirt className="size-4" />}
-          centerLabel="Recorded"
-          data={removalOfClothingCounts}
-        />
-        <DonutStat
-          title="Operation involvement"
-          subTitle="Searches carried out as part of a named operation"
-          Icon={<Crosshair className="size-4" />}
-          centerLabel="Searches"
-          data={operationInvolvementCounts}
-        />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <DonutStat
+            title="Removal of clothing"
+            subTitle="Searches involving removal of more than outer clothing"
+            Icon={<Shirt className="size-4" />}
+            centerLabel="Recorded"
+            data={removalOfClothingCounts}
+          />
+          <DonutStat
+            title="Operation involvement"
+            subTitle="Searches carried out as part of a named operation"
+            Icon={<Crosshair className="size-4" />}
+            centerLabel="Searches"
+            data={operationInvolvementCounts}
+          />
+        </div>
       </div>
     </>
   );

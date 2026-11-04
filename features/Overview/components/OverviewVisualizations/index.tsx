@@ -129,47 +129,49 @@ async function OverviewVisualizations({
           />
         )}
       </StatCardsContainer>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="md:col-span-2">
-          <MultiSeriesTrendChart
-            title="Monthly searches"
-            subTitle="Searches per month by search type"
-            Icon={<TrendingUp className="size-4" />}
-            defaultMode="stacked"
-            data={monthlySearchesByType}
-            series={SEARCH_TYPE_SERIES}
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="md:col-span-2">
+            <MultiSeriesTrendChart
+              title="Monthly searches"
+              subTitle="Searches per month by search type"
+              Icon={<TrendingUp className="size-4" />}
+              defaultMode="stacked"
+              data={monthlySearchesByType}
+              series={SEARCH_TYPE_SERIES}
+            />
+          </div>
+          <MeterChart
+            title="Outcome linked to object"
+            subTitle="Where the outcome related to the object searched for"
+            Icon={<Gauge className="size-4" />}
+            centerLabel="Linked"
+            ratio={pageData.stats?.found?.value ?? 0}
+            items={[
+              { label: "Linked", value: linkedCount },
+              {
+                label: "Not linked",
+                value: pageData.totalNumRecords - linkedCount,
+              },
+            ]}
           />
         </div>
-        <MeterChart
-          title="Outcome linked to object"
-          subTitle="Where the outcome related to the object searched for"
-          Icon={<Gauge className="size-4" />}
-          centerLabel="Linked"
-          ratio={pageData.stats?.found?.value ?? 0}
-          items={[
-            { label: "Linked", value: linkedCount },
-            {
-              label: "Not linked",
-              value: pageData.totalNumRecords - linkedCount,
-            },
-          ]}
-        />
-      </div>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <DonutStat
-          title="Search types"
-          subTitle="Share of all searches"
-          Icon={<ChartPie className="size-4" />}
-          centerLabel="Searches"
-          data={searchTypeCounts}
-        />
-        <div className="md:col-span-2">
-          <RankedBarList
-            title="Object of search"
-            subTitle="What officers were searching for"
-            Icon={<Package className="size-4" />}
-            items={objectOfSearchCounts}
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <DonutStat
+            title="Search types"
+            subTitle="Share of all searches"
+            Icon={<ChartPie className="size-4" />}
+            centerLabel="Searches"
+            data={searchTypeCounts}
           />
+          <div className="md:col-span-2">
+            <RankedBarList
+              title="Object of search"
+              subTitle="What officers were searching for"
+              Icon={<Package className="size-4" />}
+              items={objectOfSearchCounts}
+            />
+          </div>
         </div>
       </div>
     </>

@@ -39,9 +39,9 @@ function DonutStatBody({
   }
 
   return (
-    <div className="flex flex-col items-center gap-6 md:flex-row">
-      <div className="relative shrink-0">
-        <ChartContainer config={config} className="aspect-square h-36 w-36">
+    <div className="flex flex-col items-center gap-4">
+      <div className="relative mx-auto aspect-square w-40 md:w-48">
+        <ChartContainer config={config} className="h-full w-full">
           <PieChart>
             <ChartTooltip
               wrapperStyle={{ zIndex: 50 }}
@@ -51,8 +51,8 @@ function DonutStatBody({
               data={data}
               dataKey="value"
               nameKey="label"
-              innerRadius={48}
-              outerRadius={64}
+              innerRadius="60%"
+              outerRadius="80%"
               strokeWidth={2}
               stroke="var(--card)"
               shape={renderSliceShape}
@@ -70,7 +70,7 @@ function DonutStatBody({
           )}
         </div>
       </div>
-      <ul className="flex w-full flex-1 flex-col gap-2">
+      <ul className="flex w-full flex-col gap-2">
         {data.map(({ label, value }, index) => (
           <li key={label} className="flex items-center gap-2 text-sm">
             <span

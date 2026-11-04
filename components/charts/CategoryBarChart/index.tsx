@@ -97,6 +97,7 @@ function CategoryBarChartBody({
         <Bar
           dataKey="value"
           radius={4}
+          maxBarSize={24}
           label={renderMaxValueLabel}
           shape={renderBarShape}
           activeBar={{ fillOpacity: 0.85 }}

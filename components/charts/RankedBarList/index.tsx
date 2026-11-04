@@ -24,18 +24,23 @@ function RankedBarListBody({ items }: Pick<RankedBarListProps, "items">) {
           >
             {label}
           </span>
-          <div className="flex min-w-0 flex-1 items-center gap-2">
+          <div className="min-w-0 flex-1">
             <div
-              className="h-3 shrink-0 rounded-full"
+              className="relative h-5 rounded-full"
               style={{
                 width: `${(value / maxValue) * 100}%`,
                 backgroundColor:
                   index === 0 ? CHART_EMPHASIS_COLOR : CHART_MUTED_COLOR,
               }}
-            />
-            <span className="shrink-0 font-mono text-foreground tabular-nums">
-              {formatNumber(value)}
-            </span>
+            >
+              {/* Opaque badge (card surface + foreground text) so the value
+                  reads at guaranteed contrast regardless of the bar's own
+                  color, instead of sitting past the bar's end where it can
+                  get cropped by the card edge on near-max-width bars. */}
+              <span className="absolute top-1/2 right-1 -translate-y-1/2 rounded-full bg-card px-1.5 font-mono text-[10px] text-foreground tabular-nums ring-1 ring-border">
+                {formatNumber(value)}
+              </span>
+            </div>
           </div>
         </li>
       ))}

@@ -126,28 +126,31 @@ async function LegislationVisualizations({
           />
         )}
       </StatCardsContainer>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <RankedBarList
-          title="Powers used"
-          subTitle="Searches by legislation"
-          Icon={<Scale className="size-4" />}
-          items={powersUsedCounts}
-        />
-        <RankedBarList
-          title="Object of search"
-          subTitle="What officers were searching for"
-          Icon={<Package className="size-4" />}
-          items={objectOfSearchCounts}
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <RankedBarList
+            title="Powers used"
+            subTitle="Searches by legislation"
+            Icon={<Scale className="size-4" />}
+            items={powersUsedCounts}
+          />
+          <RankedBarList
+            title="Object of search"
+            subTitle="What officers were searching for"
+            Icon={<Package className="size-4" />}
+            items={objectOfSearchCounts}
+          />
+        </div>
+        <MultiSeriesTrendChart
+          className="h-auto"
+          title="Legislation over time"
+          subTitle="Monthly searches by power used"
+          Icon={<TrendingUp className="size-4" />}
+          defaultMode="trend"
+          data={legislationOverTime}
+          series={legislationSeries}
         />
       </div>
-      <MultiSeriesTrendChart
-        title="Legislation over time"
-        subTitle="Monthly searches by power used"
-        Icon={<TrendingUp className="size-4" />}
-        defaultMode="trend"
-        data={legislationOverTime}
-        series={legislationSeries}
-      />
     </>
   );
 }

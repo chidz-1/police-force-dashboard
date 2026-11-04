@@ -83,6 +83,7 @@ function MultiSeriesTrendChartBody({
               dataKey={key}
               fill={`var(--color-${key})`}
               radius={4}
+              maxBarSize={24}
               activeBar={{ fillOpacity: 0.85 }}
               animationDuration={500}
               animationEasing="ease-out"

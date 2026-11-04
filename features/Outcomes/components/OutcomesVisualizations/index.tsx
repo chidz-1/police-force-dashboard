@@ -148,39 +148,42 @@ async function OutcomesVisualizations({
           />
         )}
       </StatCardsContainer>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <div className="md:col-span-2">
-          <MultiSeriesTrendChart
-            title="Outcomes over time"
-            subTitle="Monthly arrests, other actions and no further action"
-            Icon={<TrendingUp className="size-4" />}
-            defaultMode="stacked"
-            data={outcomesOverTime}
-            series={OUTCOME_TREND_SERIES}
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <div className="md:col-span-2">
+            <MultiSeriesTrendChart
+              title="Outcomes over time"
+              subTitle="Monthly arrests, other actions and no further action"
+              Icon={<TrendingUp className="size-4" />}
+              defaultMode="stacked"
+              data={outcomesOverTime}
+              series={OUTCOME_TREND_SERIES}
+            />
+          </div>
+          <MeterChart
+            title="Action taken"
+            subTitle="Searches resulting in any outcome other than NFA"
+            Icon={<Gauge className="size-4" />}
+            centerLabel="Action taken"
+            ratio={
+              actionTakenCount + noFurtherActionCount
+                ? actionTakenCount / (actionTakenCount + noFurtherActionCount)
+                : 0
+            }
+            items={[
+              { label: "Action taken", value: actionTakenCount },
+              { label: "No further action", value: noFurtherActionCount },
+            ]}
           />
         </div>
-        <MeterChart
-          title="Action taken"
-          subTitle="Searches resulting in any outcome other than NFA"
-          Icon={<Gauge className="size-4" />}
-          centerLabel="Action taken"
-          ratio={
-            actionTakenCount + noFurtherActionCount
-              ? actionTakenCount / (actionTakenCount + noFurtherActionCount)
-              : 0
-          }
-          items={[
-            { label: "Action taken", value: actionTakenCount },
-            { label: "No further action", value: noFurtherActionCount },
-          ]}
+        <RankedBarList
+          className="h-auto"
+          title="Outcome breakdown"
+          subTitle="All recorded outcomes"
+          Icon={<ClipboardList className="size-4" />}
+          items={outcomeBreakdownCounts}
         />
       </div>
-      <RankedBarList
-        title="Outcome breakdown"
-        subTitle="All recorded outcomes"
-        Icon={<ClipboardList className="size-4" />}
-        items={outcomeBreakdownCounts}
-      />
     </>
   );
 }

@@ -103,6 +103,7 @@ async function LocationsVisualizations({
         )}
       </StatCardsContainer>
       <RankedBarList
+        className="h-auto"
         title="Top streets"
         subTitle="Streets with the most searches"
         Icon={<Signpost className="size-4" />}

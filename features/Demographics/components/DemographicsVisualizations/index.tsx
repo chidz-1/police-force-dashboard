@@ -140,39 +140,43 @@ async function DemographicsVisualizations({
           />
         )}
       </StatCardsContainer>
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-        <DonutStat
-          title="Gender"
-          subTitle="Gender of person searched"
-          Icon={<User className="size-4" />}
-          centerLabel="Searches"
-          data={genderCounts}
-        />
-        <div className="md:col-span-2">
-          <CategoryBarChart
-            title="Age range"
-            subTitle="Age band of person searched"
-            Icon={<CalendarRange className="size-4" />}
-            data={ageRangeCounts}
+      <div className="flex flex-col gap-4">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+          <DonutStat
+            title="Gender"
+            subTitle="Gender of person searched"
+            Icon={<User className="size-4" />}
+            centerLabel="Searches"
+            data={genderCounts}
+          />
+          <div className="md:col-span-2">
+            <CategoryBarChart
+              title="Age range"
+              subTitle="Age band of person searched"
+              Icon={<CalendarRange className="size-4" />}
+              data={ageRangeCounts}
+            />
+          </div>
+        </div>
+        <div className="grid grid-cols-1 gap-4">
+          <RankedBarList
+            className="h-auto"
+            title="Officer-defined ethnicity"
+            subTitle="As recorded by the officer"
+            Icon={<Users className="size-4" />}
+            items={ethnicityCounts}
           />
         </div>
-      </div>
-      <div className="grid grid-cols-1 gap-4">
-        <RankedBarList
-          title="Officer-defined ethnicity"
-          subTitle="As recorded by the officer"
-          Icon={<Users className="size-4" />}
-          items={ethnicityCounts}
+        <MultiSeriesTrendChart
+          className="h-auto"
+          title="Ethnicity over time"
+          subTitle="Monthly searches by officer-defined ethnicity"
+          Icon={<TrendingUp className="size-4" />}
+          defaultMode="stacked"
+          data={ethnicityOverTime}
+          series={ethnicitySeries}
         />
       </div>
-      <MultiSeriesTrendChart
-        title="Ethnicity over time"
-        subTitle="Monthly searches by officer-defined ethnicity"
-        Icon={<TrendingUp className="size-4" />}
-        defaultMode="stacked"
-        data={ethnicityOverTime}
-        series={ethnicitySeries}
-      />
     </>
   );
 }

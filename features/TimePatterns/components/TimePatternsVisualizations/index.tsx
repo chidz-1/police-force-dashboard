@@ -144,31 +144,34 @@ async function TimePatternsVisualizations({
           />
         )}
       </StatCardsContainer>
-      <CategoryBarChart
-        title="Hour of day"
-        subTitle="Searches by hour they started"
-        Icon={<Clock className="size-4" />}
-        data={hourOfDayCounts}
-        sortable
-        tickInterval={1}
-        categoryFormat="hour"
-      />
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+      <div className="flex flex-col gap-4">
         <CategoryBarChart
-          title="Day of week"
-          subTitle="Searches by weekday"
-          Icon={<Calendar className="size-4" />}
-          data={dayOfWeekCounts}
+          className="h-auto"
+          title="Hour of day"
+          subTitle="Searches by hour they started"
+          Icon={<Clock className="size-4" />}
+          data={hourOfDayCounts}
           sortable
+          tickInterval={1}
+          categoryFormat="hour"
         />
-        <MultiSeriesTrendChart
-          title="Monthly trend"
-          subTitle="Day-time vs night-time searches per month"
-          Icon={<TrendingUp className="size-4" />}
-          defaultMode="trend"
-          data={monthlyDayNightTrend}
-          series={DAY_NIGHT_SERIES}
-        />
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+          <CategoryBarChart
+            title="Day of week"
+            subTitle="Searches by weekday"
+            Icon={<Calendar className="size-4" />}
+            data={dayOfWeekCounts}
+            sortable
+          />
+          <MultiSeriesTrendChart
+            title="Monthly trend"
+            subTitle="Day-time vs night-time searches per month"
+            Icon={<TrendingUp className="size-4" />}
+            defaultMode="trend"
+            data={monthlyDayNightTrend}
+            series={DAY_NIGHT_SERIES}
+          />
+        </div>
       </div>
     </>
   );
