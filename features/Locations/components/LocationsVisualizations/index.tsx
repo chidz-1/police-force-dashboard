@@ -1,7 +1,8 @@
-import { MapPin, MapPinOff, Navigation } from "lucide-react";
+import { MapPin, MapPinOff, Navigation, Signpost } from "lucide-react";
 
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
+import RankedBarList from "@/components/charts/RankedBarList";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
@@ -10,6 +11,8 @@ import { LOCATIONS_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 import { formatNumber } from "@/utils/formatNumber";
+import getRankedCounts from "@/utils/getRankedCounts";
+import getStreetName from "@/utils/getStreetName";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import LocationsPageBuilder from "../../lib/LocationsPageBuilder";
 
@@ -36,6 +39,11 @@ async function LocationsVisualizations({
 
   const pageDataDirector = new PageDataDirector(dataBuilder);
   const pageData = pageDataDirector.getFullPageData();
+  const chartData = pageData.chartData ?? [];
+
+  const topStreetCounts = getRankedCounts(chartData, (record) =>
+    record.location ? getStreetName(record.location.street.name) : null
+  ).slice(0, 12);
 
   return (
     <>
@@ -94,7 +102,12 @@ async function LocationsVisualizations({
           />
         )}
       </StatCardsContainer>
-      <pre>{JSON.stringify(pageData, null, 3)}</pre>
+      <RankedBarList
+        title="Top streets"
+        subTitle="Streets with the most searches"
+        Icon={<Signpost className="size-4" />}
+        items={topStreetCounts}
+      />
     </>
   );
 }

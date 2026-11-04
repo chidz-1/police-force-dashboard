@@ -1,17 +1,37 @@
-import { Calendar, Clock, Moon, Sun } from "lucide-react";
+import { Calendar, Clock, Moon, Sun, TrendingUp } from "lucide-react";
 
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
+import CategoryBarChart from "@/components/charts/CategoryBarChart";
+import MultiSeriesTrendChart from "@/components/charts/MultiSeriesTrendChart";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { TimePatternsVisualizationsProps } from "./types";
-import { TIME_PATTERNS_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
+import {
+  TIME_PATTERNS_FILTER_ITEMS,
+  PAGE_FILTER_WIDTHS,
+  DAY_LABELS,
+  WEEK_DAY_CHART_ORDER,
+  HOUR_OF_DAY_CHART_CATEGORIES,
+} from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 import { formatPercentage } from "@/utils/formatNumber";
+import aggregateByMonth from "@/utils/aggregateByMonth";
+import getCategoryCounts from "@/utils/getCategoryCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import TimePatternsPageBuilder from "../../lib/TimePatternsPageBuilder";
+
+const DAY_NIGHT_SERIES = [
+  { key: "day", label: "Day (06-22)" },
+  { key: "night", label: "Night (22-06)" },
+] as const;
+
+function isNightTime(datetime: string): boolean {
+  const hour = new Date(datetime).getHours();
+  return hour >= 22 || hour < 6;
+}
 
 async function TimePatternsVisualizations({
   searchParams,
@@ -36,6 +56,24 @@ async function TimePatternsVisualizations({
 
   const pageDataDirector = new PageDataDirector(dataBuilder);
   const pageData = pageDataDirector.getFullPageData();
+  const chartData = pageData.chartData ?? [];
+
+  const hourOfDayCounts = getCategoryCounts(
+    chartData,
+    HOUR_OF_DAY_CHART_CATEGORIES,
+    (record) => String(new Date(record.datetime).getHours())
+  );
+
+  const dayOfWeekCounts = getCategoryCounts(
+    chartData,
+    WEEK_DAY_CHART_ORDER,
+    (record) => DAY_LABELS[new Date(record.datetime).getDay()]
+  );
+
+  const monthlyDayNightTrend = aggregateByMonth(chartData, [
+    { key: "day", match: (record) => !isNightTime(record.datetime) },
+    { key: "night", match: (record) => isNightTime(record.datetime) },
+  ]);
 
   return (
     <>
@@ -110,7 +148,32 @@ async function TimePatternsVisualizations({
           />
         )}
       </StatCardsContainer>
-      <pre>{JSON.stringify(pageData, null, 3)}</pre>
+      <CategoryBarChart
+        title="Hour of day"
+        subTitle="Searches by hour they started"
+        Icon={<Clock className="size-4" />}
+        data={hourOfDayCounts}
+        sortable
+        tickInterval={1}
+        categoryFormat="hour"
+      />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <CategoryBarChart
+          title="Day of week"
+          subTitle="Searches by weekday"
+          Icon={<Calendar className="size-4" />}
+          data={dayOfWeekCounts}
+          sortable
+        />
+        <MultiSeriesTrendChart
+          title="Monthly trend"
+          subTitle="Day-time vs night-time searches per month"
+          Icon={<TrendingUp className="size-4" />}
+          defaultMode="trend"
+          data={monthlyDayNightTrend}
+          series={DAY_NIGHT_SERIES}
+        />
+      </div>
     </>
   );
 }

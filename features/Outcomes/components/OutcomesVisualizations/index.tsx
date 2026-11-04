@@ -1,7 +1,18 @@
-import { FileText, Handshake, ShieldAlert, ShieldCheck } from "lucide-react";
+import {
+  ClipboardList,
+  FileText,
+  Gauge,
+  Handshake,
+  ShieldAlert,
+  ShieldCheck,
+  TrendingUp,
+} from "lucide-react";
 
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
+import MultiSeriesTrendChart from "@/components/charts/MultiSeriesTrendChart";
+import MeterChart from "@/components/charts/MeterChart";
+import RankedBarList from "@/components/charts/RankedBarList";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
@@ -9,8 +20,20 @@ import { OutcomesVisualizationsProps } from "./types";
 import { OUTCOMES_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
+import aggregateByMonth from "@/utils/aggregateByMonth";
+import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import OutcomesPageBuilder from "../../lib/OutcomesPageBuilder";
+
+const OUTCOME_TREND_SERIES = [
+  { key: "arrest", label: "Arrest" },
+  { key: "noFurtherAction", label: "No further action" },
+  { key: "otherAction", label: "Other action" },
+] as const;
+
+function getOutcomeLabel(outcome: string | false): string | null {
+  return outcome === "" || outcome === false ? null : outcome;
+}
 
 async function OutcomesVisualizations({
   searchParams,
@@ -36,6 +59,35 @@ async function OutcomesVisualizations({
 
   const pageDataDirector = new PageDataDirector(dataBuilder);
   const pageData = pageDataDirector.getFullPageData();
+  const chartData = pageData.chartData ?? [];
+
+  const outcomesOverTime = aggregateByMonth(chartData, [
+    { key: "arrest", match: (record) => record.outcome === "Arrest" },
+    {
+      key: "noFurtherAction",
+      match: (record) => record.outcome === "A no further action disposal",
+    },
+    {
+      key: "otherAction",
+      match: (record) =>
+        getOutcomeLabel(record.outcome) !== null &&
+        record.outcome !== "Arrest" &&
+        record.outcome !== "A no further action disposal",
+    },
+  ]);
+
+  const actionTakenCount = chartData.filter(
+    (record) =>
+      getOutcomeLabel(record.outcome) !== null &&
+      record.outcome !== "A no further action disposal"
+  ).length;
+  const noFurtherActionCount = chartData.filter(
+    (record) => record.outcome === "A no further action disposal"
+  ).length;
+
+  const outcomeBreakdownCounts = getRankedCounts(chartData, (record) =>
+    getOutcomeLabel(record.outcome)
+  ).slice(0, 8);
 
   return (
     <>
@@ -101,7 +153,39 @@ async function OutcomesVisualizations({
           />
         )}
       </StatCardsContainer>
-      <pre>{JSON.stringify(pageData, null, 3)}</pre>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="md:col-span-2">
+          <MultiSeriesTrendChart
+            title="Outcomes over time"
+            subTitle="Monthly arrests, other actions and no further action"
+            Icon={<TrendingUp className="size-4" />}
+            defaultMode="stacked"
+            data={outcomesOverTime}
+            series={OUTCOME_TREND_SERIES}
+          />
+        </div>
+        <MeterChart
+          title="Action taken"
+          subTitle="Searches resulting in any outcome other than NFA"
+          Icon={<Gauge className="size-4" />}
+          centerLabel="Action taken"
+          ratio={
+            actionTakenCount + noFurtherActionCount
+              ? actionTakenCount / (actionTakenCount + noFurtherActionCount)
+              : 0
+          }
+          items={[
+            { label: "Action taken", value: actionTakenCount },
+            { label: "No further action", value: noFurtherActionCount },
+          ]}
+        />
+      </div>
+      <RankedBarList
+        title="Outcome breakdown"
+        subTitle="All recorded outcomes"
+        Icon={<ClipboardList className="size-4" />}
+        items={outcomeBreakdownCounts}
+      />
     </>
   );
 }

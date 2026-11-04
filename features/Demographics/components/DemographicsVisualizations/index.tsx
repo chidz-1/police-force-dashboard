@@ -1,17 +1,30 @@
-import { Baby, User, Users } from "lucide-react";
+import { Baby, CalendarRange, TrendingUp, User, Users } from "lucide-react";
 
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
+import DonutStat from "@/components/charts/DonutStat";
+import CategoryBarChart from "@/components/charts/CategoryBarChart";
+import RankedBarList from "@/components/charts/RankedBarList";
+import MultiSeriesTrendChart from "@/components/charts/MultiSeriesTrendChart";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { DemographicsVisualizationsProps } from "./types";
-import { DEMOGRAPHICS_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
+import {
+  DEMOGRAPHICS_FILTER_ITEMS,
+  PAGE_FILTER_WIDTHS,
+  AGE_RANGE_CHART_CATEGORIES,
+} from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 import { formatPercentage } from "@/utils/formatNumber";
+import aggregateByMonth from "@/utils/aggregateByMonth";
+import getRankedCounts from "@/utils/getRankedCounts";
+import getCategoryCounts from "@/utils/getCategoryCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import DemographicsPageBuilder from "../../lib/DemographicsPageBuilder";
+
+const TOP_ETHNICITY_SERIES_COUNT = 5;
 
 async function DemographicsVisualizations({
   searchParams,
@@ -37,6 +50,36 @@ async function DemographicsVisualizations({
 
   const pageDataDirector = new PageDataDirector(dataBuilder);
   const pageData = pageDataDirector.getFullPageData();
+  const chartData = pageData.chartData ?? [];
+
+  const genderCounts = getRankedCounts(
+    chartData,
+    (record) => record.gender ?? "Not recorded"
+  ).sort((a, b) => b.value - a.value);
+
+  const ageRangeCounts = getCategoryCounts(
+    chartData,
+    AGE_RANGE_CHART_CATEGORIES,
+    (record) => record.age_range ?? "Not recorded"
+  );
+
+  const ethnicityCounts = getRankedCounts(
+    chartData,
+    (record) => record.officer_defined_ethnicity ?? "Not recorded"
+  );
+
+  const ethnicitySeries = ethnicityCounts
+    .slice(0, TOP_ETHNICITY_SERIES_COUNT)
+    .map(({ label }, index) => ({ key: `ethnicity${index}`, label }));
+
+  const ethnicityOverTime = aggregateByMonth(
+    chartData,
+    ethnicitySeries.map(({ key, label }) => ({
+      key,
+      match: (record) =>
+        (record.officer_defined_ethnicity ?? "Not recorded") === label,
+    }))
+  );
 
   return (
     <>
@@ -98,7 +141,39 @@ async function DemographicsVisualizations({
           />
         )}
       </StatCardsContainer>
-      <pre>{JSON.stringify(pageData, null, 3)}</pre>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <DonutStat
+          title="Gender"
+          subTitle="Gender of person searched"
+          Icon={<User className="size-4" />}
+          centerLabel="Searches"
+          data={genderCounts}
+        />
+        <div className="md:col-span-2">
+          <CategoryBarChart
+            title="Age range"
+            subTitle="Age band of person searched"
+            Icon={<CalendarRange className="size-4" />}
+            data={ageRangeCounts}
+          />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 gap-4">
+        <RankedBarList
+          title="Officer-defined ethnicity"
+          subTitle="As recorded by the officer"
+          Icon={<Users className="size-4" />}
+          items={ethnicityCounts}
+        />
+      </div>
+      <MultiSeriesTrendChart
+        title="Ethnicity over time"
+        subTitle="Monthly searches by officer-defined ethnicity"
+        Icon={<TrendingUp className="size-4" />}
+        defaultMode="stacked"
+        data={ethnicityOverTime}
+        series={ethnicitySeries}
+      />
     </>
   );
 }

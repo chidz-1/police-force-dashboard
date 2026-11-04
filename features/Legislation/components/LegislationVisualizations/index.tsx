@@ -1,7 +1,15 @@
-import { FileText, Scale, ShieldAlert } from "lucide-react";
+import {
+  FileText,
+  Package,
+  Scale,
+  ShieldAlert,
+  TrendingUp,
+} from "lucide-react";
 
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
+import RankedBarList from "@/components/charts/RankedBarList";
+import MultiSeriesTrendChart from "@/components/charts/MultiSeriesTrendChart";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
@@ -9,8 +17,12 @@ import { LegislationVisualizationsProps } from "./types";
 import { LEGISLATION_PAGE_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
+import aggregateByMonth from "@/utils/aggregateByMonth";
+import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import LegislationPageBuilder from "../../lib/LegislationPageBuilder";
+
+const TOP_LEGISLATION_SERIES_COUNT = 5;
 
 async function LegislationVisualizations({
   searchParams,
@@ -35,6 +47,29 @@ async function LegislationVisualizations({
 
   const pageDataDirector = new PageDataDirector(dataBuilder);
   const pageData = pageDataDirector.getFullPageData();
+  const chartData = pageData.chartData ?? [];
+
+  const powersUsedCounts = getRankedCounts(
+    chartData,
+    (record) => record.legislation
+  ).slice(0, 8);
+
+  const objectOfSearchCounts = getRankedCounts(
+    chartData,
+    (record) => record.object_of_search
+  ).slice(0, 8);
+
+  const legislationSeries = powersUsedCounts
+    .slice(0, TOP_LEGISLATION_SERIES_COUNT)
+    .map(({ label }, index) => ({ key: `legislation${index}`, label }));
+
+  const legislationOverTime = aggregateByMonth(
+    chartData,
+    legislationSeries.map(({ key, label }) => ({
+      key,
+      match: (record) => record.legislation === label,
+    }))
+  );
 
   return (
     <>
@@ -92,7 +127,28 @@ async function LegislationVisualizations({
           />
         )}
       </StatCardsContainer>
-      <pre>{JSON.stringify(pageData, null, 3)}</pre>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+        <RankedBarList
+          title="Powers used"
+          subTitle="Searches by legislation"
+          Icon={<Scale className="size-4" />}
+          items={powersUsedCounts}
+        />
+        <RankedBarList
+          title="Object of search"
+          subTitle="What officers were searching for"
+          Icon={<Package className="size-4" />}
+          items={objectOfSearchCounts}
+        />
+      </div>
+      <MultiSeriesTrendChart
+        title="Legislation over time"
+        subTitle="Monthly searches by power used"
+        Icon={<TrendingUp className="size-4" />}
+        defaultMode="trend"
+        data={legislationOverTime}
+        series={legislationSeries}
+      />
     </>
   );
 }

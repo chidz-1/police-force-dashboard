@@ -6,6 +6,17 @@ export const API_BURST_MITIGATION_DELAY = 300; // ms
 
 export const GLOBAL_ALL_FILTER_VALUE = "all";
 
+export const CHART_SERIES_COLORS = [
+  "var(--chart-1)",
+  "var(--chart-2)",
+  "var(--chart-3)",
+  "var(--chart-4)",
+  "var(--chart-5)",
+] as const;
+
+export const CHART_EMPHASIS_COLOR = CHART_SERIES_COLORS[0];
+export const CHART_MUTED_COLOR = CHART_SERIES_COLORS[3];
+
 export const ALL_MONTHS_FILTER_ITEM = {
   label: "All available months",
   value: "all",
@@ -30,6 +41,24 @@ export const DAY_LABELS = [
   "Fri",
   "Sat",
 ] as const;
+
+// Chart display order (week starts Monday), derived from DAY_LABELS
+// (indexed by Date#getDay(), which starts Sunday)
+export const WEEK_DAY_CHART_ORDER = [...DAY_LABELS.slice(1), DAY_LABELS[0]];
+
+export const AGE_RANGE_CHART_CATEGORIES = [
+  "under 10",
+  "10-17",
+  "18-24",
+  "25-34",
+  "over 34",
+  "Not recorded",
+] as const;
+
+export const HOUR_OF_DAY_CHART_CATEGORIES = Array.from(
+  { length: 24 },
+  (_, hour) => String(hour)
+);
 
 // Filter Items
 

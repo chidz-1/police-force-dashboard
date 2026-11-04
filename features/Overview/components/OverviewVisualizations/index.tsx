@@ -1,27 +1,41 @@
 import {
-  BarChart3,
+  ChartPie,
+  Gauge,
+  Package,
   Search,
   ShieldAlert,
   ShieldCheck,
   Target,
+  TrendingUp,
 } from "lucide-react";
 
 import StatCard from "@/components/StatCard";
 import StatCardsContainer from "@/components/StatCardsContainer";
-import { Badge } from "@/components/ui/badge";
+import MultiSeriesTrendChart from "@/components/charts/MultiSeriesTrendChart";
+import MeterChart from "@/components/charts/MeterChart";
+import DonutStat from "@/components/charts/DonutStat";
+import RankedBarList from "@/components/charts/RankedBarList";
 import decorateWithSuspense from "@/utils/decorateWithSuspense";
-import decorateWithChartCard from "@/utils/decorateWithChartCard";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { OverviewVisualizationsProps } from "./types";
 import { OVERVIEW_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
-import OverviewCharts from "../OverviewCharts";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
+import aggregateByMonth from "@/utils/aggregateByMonth";
+import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import OverviewPageBuilder from "../../lib/OverviewPageBuilder";
 
-const OverviewChartsCard = decorateWithChartCard(OverviewCharts);
+const SEARCH_TYPE_SERIES = [
+  { key: "personSearch", label: "Person search", match: "Person search" },
+  {
+    key: "personAndVehicleSearch",
+    label: "Person and Vehicle search",
+    match: "Person and Vehicle search",
+  },
+  { key: "vehicleSearch", label: "Vehicle search", match: "Vehicle search" },
+] as const;
 
 async function OverviewVisualizations({
   searchParams,
@@ -45,6 +59,27 @@ async function OverviewVisualizations({
 
   const pageDataDirector = new PageDataDirector(dataBuilder);
   const pageData = pageDataDirector.getFullPageData();
+  const chartData = pageData.chartData ?? [];
+
+  const monthlySearchesByType = aggregateByMonth(
+    chartData,
+    SEARCH_TYPE_SERIES.map(({ key, match }) => ({
+      key,
+      match: (record) => record.type === match,
+    }))
+  );
+
+  const searchTypeCounts = SEARCH_TYPE_SERIES.map(({ label, match }) => ({
+    label,
+    value: chartData.filter((record) => record.type === match).length,
+  }));
+
+  const objectOfSearchCounts = getRankedCounts(
+    chartData,
+    (record) => record.object_of_search
+  ).slice(0, 8);
+
+  const linkedCount = pageData.stats?.found?.count ?? 0;
 
   return (
     <>
@@ -100,13 +135,49 @@ async function OverviewVisualizations({
           />
         )}
       </StatCardsContainer>
-      <OverviewChartsCard
-        title="Searches over time"
-        subTitle="Faux placeholder for chart data"
-        Icon={BarChart3}
-        chartAction={<Badge variant="outline">Sort</Badge>}
-        filters={{ date, officer_defined_ethnicity, type }}
-      />
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <div className="md:col-span-2">
+          <MultiSeriesTrendChart
+            title="Monthly searches"
+            subTitle="Searches per month by search type"
+            Icon={<TrendingUp className="size-4" />}
+            defaultMode="stacked"
+            data={monthlySearchesByType}
+            series={SEARCH_TYPE_SERIES}
+          />
+        </div>
+        <MeterChart
+          title="Outcome linked to object"
+          subTitle="Where the outcome related to the object searched for"
+          Icon={<Gauge className="size-4" />}
+          centerLabel="Linked"
+          ratio={pageData.stats?.found?.value ?? 0}
+          items={[
+            { label: "Linked", value: linkedCount },
+            {
+              label: "Not linked",
+              value: pageData.totalNumRecords - linkedCount,
+            },
+          ]}
+        />
+      </div>
+      <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
+        <DonutStat
+          title="Search types"
+          subTitle="Share of all searches"
+          Icon={<ChartPie className="size-4" />}
+          centerLabel="Searches"
+          data={searchTypeCounts}
+        />
+        <div className="md:col-span-2">
+          <RankedBarList
+            title="Object of search"
+            subTitle="What officers were searching for"
+            Icon={<Package className="size-4" />}
+            items={objectOfSearchCounts}
+          />
+        </div>
+      </div>
     </>
   );
 }

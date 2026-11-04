@@ -1,5 +1,4 @@
 import React from "react";
-import { LucideIcon } from "lucide-react";
 
 import {
   Card,
@@ -14,7 +13,10 @@ export type ChartCardProps = {
   title: string;
   subTitle?: string;
   chartAction?: React.ReactNode;
-  Icon?: LucideIcon;
+  // A pre-rendered icon element (e.g. <TrendingUp className="size-4" />),
+  // not a component reference: a component reference can't cross the
+  // server -> client boundary, since every chart card is "use client".
+  Icon?: React.ReactNode;
 };
 
 export default function decorateWithChartCard<P extends object>(
@@ -28,11 +30,11 @@ export default function decorateWithChartCard<P extends object>(
     ...baseComponentProps
   }: P & ChartCardProps) {
     return (
-      <Card>
+      <Card className="px-4">
         <CardHeader>
           <CardTitle>
             <h2 className="mb-0 flex items-center gap-2 text-sm font-semibold">
-              {Icon && <Icon className="size-4" />}
+              {Icon}
               {title}
             </h2>
           </CardTitle>
