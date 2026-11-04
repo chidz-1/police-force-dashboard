@@ -1,0 +1,1 @@
+export const TOP_LEGISLATION_SERIES_COUNT = 5;

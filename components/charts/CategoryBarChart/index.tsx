@@ -2,8 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { ArrowUpDown } from "lucide-react";
-import { Bar, BarChart, XAxis, Cell } from "recharts";
-import type { LabelProps } from "recharts";
+import { Bar, BarChart, Rectangle, XAxis } from "recharts";
+import type { BarShapeProps, LabelProps } from "recharts";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -64,6 +64,16 @@ function CategoryBarChartBody({
     );
   }
 
+  function renderBarShape(props: BarShapeProps) {
+    const { index } = props;
+    return (
+      <Rectangle
+        {...props}
+        fill={index === maxIndex ? CHART_EMPHASIS_COLOR : CHART_MUTED_COLOR}
+      />
+    );
+  }
+
   return (
     <ChartContainer config={chartConfig} className="aspect-auto h-56 w-full">
       <BarChart data={data} margin={{ top: 20 }}>
@@ -84,16 +94,15 @@ function CategoryBarChartBody({
             />
           }
         />
-        <Bar dataKey="value" radius={4} label={renderMaxValueLabel}>
-          {data.map((item, index) => (
-            <Cell
-              key={item.category}
-              fill={
-                index === maxIndex ? CHART_EMPHASIS_COLOR : CHART_MUTED_COLOR
-              }
-            />
-          ))}
-        </Bar>
+        <Bar
+          dataKey="value"
+          radius={4}
+          label={renderMaxValueLabel}
+          shape={renderBarShape}
+          activeBar={{ fillOpacity: 0.85 }}
+          animationDuration={500}
+          animationEasing="ease-out"
+        />
       </BarChart>
     </ChartContainer>
   );

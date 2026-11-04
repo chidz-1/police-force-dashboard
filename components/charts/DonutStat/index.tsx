@@ -1,6 +1,7 @@
 "use client";
 
-import { Pie, PieChart, Cell } from "recharts";
+import { Pie, PieChart, Sector } from "recharts";
+import type { PieSectorShapeProps } from "recharts";
 
 import {
   ChartContainer,
@@ -10,7 +11,7 @@ import {
 } from "@/components/ui/chart";
 import decorateWithChartCard from "@/utils/decorateWithChartCard";
 import { formatNumber, formatPercentage } from "@/utils/formatNumber";
-import { CHART_SERIES_COLORS } from "@/constants";
+import { CHART_CATEGORICAL_COLORS } from "@/constants";
 import { DonutStatProps } from "./types";
 
 function DonutStatBody({
@@ -22,17 +23,30 @@ function DonutStatBody({
   const config = data.reduce<ChartConfig>((acc, { label }, index) => {
     acc[label] = {
       label,
-      color: CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length],
+      color: CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length],
     };
     return acc;
   }, {});
+
+  function renderSliceShape(props: PieSectorShapeProps) {
+    const { index } = props;
+    return (
+      <Sector
+        {...props}
+        fill={CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length]}
+      />
+    );
+  }
 
   return (
     <div className="flex flex-col items-center gap-6 md:flex-row">
       <div className="relative shrink-0">
         <ChartContainer config={config} className="aspect-square h-36 w-36">
           <PieChart>
-            <ChartTooltip content={<ChartTooltipContent hideLabel />} />
+            <ChartTooltip
+              wrapperStyle={{ zIndex: 50 }}
+              content={<ChartTooltipContent hideLabel />}
+            />
             <Pie
               data={data}
               dataKey="value"
@@ -41,14 +55,10 @@ function DonutStatBody({
               outerRadius={64}
               strokeWidth={2}
               stroke="var(--card)"
-            >
-              {data.map(({ label }, index) => (
-                <Cell
-                  key={label}
-                  fill={CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length]}
-                />
-              ))}
-            </Pie>
+              shape={renderSliceShape}
+              animationDuration={500}
+              animationEasing="ease-out"
+            />
           </PieChart>
         </ChartContainer>
         <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center">
@@ -67,7 +77,9 @@ function DonutStatBody({
               className="size-2 shrink-0 rounded-full"
               style={{
                 backgroundColor:
-                  CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length],
+                  CHART_CATEGORICAL_COLORS[
+                    index % CHART_CATEGORICAL_COLORS.length
+                  ],
               }}
             />
             <span className="flex-1 truncate text-muted-foreground">

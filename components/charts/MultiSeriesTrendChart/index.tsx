@@ -13,7 +13,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import decorateWithChartCard from "@/utils/decorateWithChartCard";
-import { CHART_SERIES_COLORS } from "@/constants";
+import { CHART_CATEGORICAL_COLORS } from "@/constants";
 import { MultiSeriesTrendChartProps, TrendMode } from "./types";
 
 const TREND_MODE_OPTIONS: { value: TrendMode; label: string }[] = [
@@ -33,7 +33,7 @@ function MultiSeriesTrendChartBody({
   const config = series.reduce<ChartConfig>((acc, { key, label }, index) => {
     acc[key] = {
       label,
-      color: CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length],
+      color: CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length],
     };
     return acc;
   }, {});
@@ -60,6 +60,9 @@ function MultiSeriesTrendChartBody({
               fill={`var(--color-${key})`}
               fillOpacity={0.15}
               strokeWidth={2}
+              activeDot={{ r: 4 }}
+              animationDuration={500}
+              animationEasing="ease-out"
             />
           ))}
         </AreaChart>
@@ -80,6 +83,9 @@ function MultiSeriesTrendChartBody({
               dataKey={key}
               fill={`var(--color-${key})`}
               radius={4}
+              activeBar={{ fillOpacity: 0.85 }}
+              animationDuration={500}
+              animationEasing="ease-out"
               {...(mode === "stacked" ? { stackId: "trend" } : {})}
             />
           ))}

@@ -24,12 +24,7 @@ import aggregateByMonth from "@/utils/aggregateByMonth";
 import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import OutcomesPageBuilder from "../../lib/OutcomesPageBuilder";
-
-const OUTCOME_TREND_SERIES = [
-  { key: "arrest", label: "Arrest" },
-  { key: "noFurtherAction", label: "No further action" },
-  { key: "otherAction", label: "Other action" },
-] as const;
+import { OUTCOME_TREND_SERIES } from "../../constants";
 
 function getOutcomeLabel(outcome: string | false): string | null {
   return outcome === "" || outcome === false ? null : outcome;

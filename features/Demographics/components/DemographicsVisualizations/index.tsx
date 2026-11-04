@@ -23,8 +23,7 @@ import getRankedCounts from "@/utils/getRankedCounts";
 import getCategoryCounts from "@/utils/getCategoryCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import DemographicsPageBuilder from "../../lib/DemographicsPageBuilder";
-
-const TOP_ETHNICITY_SERIES_COUNT = 5;
+import { TOP_ETHNICITY_SERIES_COUNT } from "../../constants";
 
 async function DemographicsVisualizations({
   searchParams,

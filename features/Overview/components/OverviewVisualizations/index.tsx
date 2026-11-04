@@ -19,23 +19,17 @@ import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { OverviewVisualizationsProps } from "./types";
-import { OVERVIEW_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
+import {
+  OVERVIEW_FILTER_ITEMS,
+  PAGE_FILTER_WIDTHS,
+  SEARCH_TYPE_SERIES,
+} from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 import aggregateByMonth from "@/utils/aggregateByMonth";
 import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import OverviewPageBuilder from "../../lib/OverviewPageBuilder";
-
-const SEARCH_TYPE_SERIES = [
-  { key: "personSearch", label: "Person search", match: "Person search" },
-  {
-    key: "personAndVehicleSearch",
-    label: "Person and Vehicle search",
-    match: "Person and Vehicle search",
-  },
-  { key: "vehicleSearch", label: "Vehicle search", match: "Vehicle search" },
-] as const;
 
 async function OverviewVisualizations({
   searchParams,

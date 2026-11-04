@@ -16,22 +16,16 @@ import decorateWithSuspense from "@/utils/decorateWithSuspense";
 import PageFiltersContainer from "@/components/PageFiltersContainer";
 import PageFilters from "@/components/PageFilters";
 import { SearchTypesVisualizationsProps } from "./types";
-import { SEARCH_TYPES_FILTER_ITEMS, PAGE_FILTER_WIDTHS } from "@/constants";
+import {
+  SEARCH_TYPES_FILTER_ITEMS,
+  PAGE_FILTER_WIDTHS,
+  SEARCH_TYPE_SERIES,
+} from "@/constants";
 import getStopData from "@/utils/getStopData";
 import getRawStopData from "@/utils/getRawStopData";
 import aggregateByMonth from "@/utils/aggregateByMonth";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import SearchTypesPageBuilder from "../../lib/SearchTypesPageBuilder";
-
-const SEARCH_TYPE_SERIES = [
-  { key: "personSearch", label: "Person search", match: "Person search" },
-  {
-    key: "personAndVehicleSearch",
-    label: "Person and Vehicle search",
-    match: "Person and Vehicle search",
-  },
-  { key: "vehicleSearch", label: "Vehicle search", match: "Vehicle search" },
-] as const;
 
 async function SearchTypesVisualizations({
   searchParams,

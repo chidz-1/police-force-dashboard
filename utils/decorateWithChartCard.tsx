@@ -8,6 +8,7 @@ import {
   CardAction,
   CardContent,
 } from "@/components/ui/card";
+import { CARD_ICON_CHIP_CLASSNAME } from "@/constants";
 
 export type ChartCardProps = {
   title: string;
@@ -34,7 +35,7 @@ export default function decorateWithChartCard<P extends object>(
         <CardHeader>
           <CardTitle>
             <h2 className="mb-0 flex items-center gap-2 text-sm font-semibold">
-              {Icon}
+              {Icon && <span className={CARD_ICON_CHIP_CLASSNAME}>{Icon}</span>}
               {title}
             </h2>
           </CardTitle>

@@ -22,11 +22,7 @@ import aggregateByMonth from "@/utils/aggregateByMonth";
 import getCategoryCounts from "@/utils/getCategoryCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import TimePatternsPageBuilder from "../../lib/TimePatternsPageBuilder";
-
-const DAY_NIGHT_SERIES = [
-  { key: "day", label: "Day (06-22)" },
-  { key: "night", label: "Night (22-06)" },
-] as const;
+import { DAY_NIGHT_SERIES } from "../../constants";
 
 function isNightTime(datetime: string): boolean {
   const hour = new Date(datetime).getHours();

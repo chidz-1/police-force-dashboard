@@ -10,6 +10,7 @@ import {
   CardAction,
 } from "@/components/ui/card";
 import { cn } from "cn";
+import { CARD_ICON_CHIP_CLASSNAME } from "@/constants";
 
 export default function StatCard(props: StatCardProps) {
   const {
@@ -29,7 +30,9 @@ export default function StatCard(props: StatCardProps) {
           <h2 className="mb-0 text-sm font-semibold">{title}</h2>
         </CardTitle>
         <CardAction>
-          <Icon />
+          <span className={CARD_ICON_CHIP_CLASSNAME}>
+            <Icon className="size-4" />
+          </span>
         </CardAction>
       </CardHeader>
       <CardContent className="mb-auto">

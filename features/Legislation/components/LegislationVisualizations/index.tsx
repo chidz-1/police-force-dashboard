@@ -21,8 +21,7 @@ import aggregateByMonth from "@/utils/aggregateByMonth";
 import getRankedCounts from "@/utils/getRankedCounts";
 import PageDataDirector from "@/lib/PageData/PageDataDirector";
 import LegislationPageBuilder from "../../lib/LegislationPageBuilder";
-
-const TOP_LEGISLATION_SERIES_COUNT = 5;
+import { TOP_LEGISLATION_SERIES_COUNT } from "../../constants";
 
 async function LegislationVisualizations({
   searchParams,
