@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/chart";
 import decorateWithChartCard from "@/utils/decorateWithChartCard";
 import { formatNumber, formatPercentage } from "@/utils/formatNumber";
-import { CHART_CATEGORICAL_COLORS } from "@/constants";
+import { CHART_SERIES_COLORS } from "@/constants";
 import { DonutStatProps } from "./types";
 
 function DonutStatBody({
@@ -23,7 +23,7 @@ function DonutStatBody({
   const config = data.reduce<ChartConfig>((acc, { label }, index) => {
     acc[label] = {
       label,
-      color: CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length],
+      color: CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length],
     };
     return acc;
   }, {});
@@ -33,7 +33,7 @@ function DonutStatBody({
     return (
       <Sector
         {...props}
-        fill={CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length]}
+        fill={CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length]}
       />
     );
   }
@@ -77,9 +77,7 @@ function DonutStatBody({
               className="size-2 shrink-0 rounded-full"
               style={{
                 backgroundColor:
-                  CHART_CATEGORICAL_COLORS[
-                    index % CHART_CATEGORICAL_COLORS.length
-                  ],
+                  CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length],
               }}
             />
             <span className="flex-1 truncate text-muted-foreground">

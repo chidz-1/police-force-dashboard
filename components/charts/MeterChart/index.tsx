@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/chart";
 import decorateWithChartCard from "@/utils/decorateWithChartCard";
 import { formatNumber, formatPercentage } from "@/utils/formatNumber";
-import { CHART_EMPHASIS_COLOR } from "@/constants";
+import { CHART_EMPHASIS_COLOR, CHART_MUTED_COLOR } from "@/constants";
 import { MeterChartProps } from "./types";
 
 function MeterChartBody({
@@ -20,12 +20,11 @@ function MeterChartBody({
   items,
 }: Pick<MeterChartProps, "ratio" | "centerLabel" | "items">) {
   const data = items.map(({ label, value }) => ({ name: label, value }));
-  const mutedColor = "var(--muted)";
 
   const config = items.reduce<ChartConfig>((acc, { label }, index) => {
     acc[label] = {
       label,
-      color: index === 0 ? CHART_EMPHASIS_COLOR : mutedColor,
+      color: index === 0 ? CHART_EMPHASIS_COLOR : CHART_MUTED_COLOR,
     };
     return acc;
   }, {});
@@ -35,7 +34,7 @@ function MeterChartBody({
     return (
       <Sector
         {...props}
-        fill={index === 0 ? CHART_EMPHASIS_COLOR : mutedColor}
+        fill={index === 0 ? CHART_EMPHASIS_COLOR : CHART_MUTED_COLOR}
       />
     );
   }
@@ -83,7 +82,7 @@ function MeterChartBody({
               className="size-2 shrink-0 rounded-full"
               style={{
                 backgroundColor:
-                  index === 0 ? CHART_EMPHASIS_COLOR : mutedColor,
+                  index === 0 ? CHART_EMPHASIS_COLOR : CHART_MUTED_COLOR,
               }}
             />
             <span className="text-muted-foreground">{label}</span>

@@ -13,7 +13,7 @@ import {
   type ChartConfig,
 } from "@/components/ui/chart";
 import decorateWithChartCard from "@/utils/decorateWithChartCard";
-import { CHART_CATEGORICAL_COLORS } from "@/constants";
+import { CHART_SERIES_COLORS } from "@/constants";
 import { MultiSeriesTrendChartProps, TrendMode } from "./types";
 
 const TREND_MODE_OPTIONS: { value: TrendMode; label: string }[] = [
@@ -33,7 +33,7 @@ function MultiSeriesTrendChartBody({
   const config = series.reduce<ChartConfig>((acc, { key, label }, index) => {
     acc[key] = {
       label,
-      color: CHART_CATEGORICAL_COLORS[index % CHART_CATEGORICAL_COLORS.length],
+      color: CHART_SERIES_COLORS[index % CHART_SERIES_COLORS.length],
     };
     return acc;
   }, {});

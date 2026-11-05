@@ -42,11 +42,7 @@ export const TABLE_ARREST_RATE_COLUMN = {
 export const CARD_ICON_CHIP_CLASSNAME =
   "flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-accent-foreground";
 
-// The theme only defines 5 steps of a single hue (see @components.json /
-// @app/globals.css), so it's a sequential ramp, not a true categorical
-// palette - adjacent steps (e.g. chart-2/chart-3) sit under the CVD and
-// normal-vision separation floor (validated with the dataviz skill's
-// validate_palette.js). Natural chart-1..5 order, for sequential/magnitude use.
+// Fixed order, stepped around the wheel from the brand hue. Validate changes with the dataviz skill.
 export const CHART_SERIES_COLORS = [
   "var(--chart-1)",
   "var(--chart-2)",
@@ -55,24 +51,8 @@ export const CHART_SERIES_COLORS = [
   "var(--chart-5)",
 ] as const;
 
-// Same 5 steps, reordered by perceptual distance (endpoints first, then the
-// midpoint, then the remaining quartiles) so that charts using only the
-// first 2-4 colors - the common case - get the most distinguishable subset
-// instead of neighbouring, near-identical ramp steps. Use this (not
-// CHART_SERIES_COLORS) whenever color is carrying category identity for
-// >= 2 simultaneously-visible series (donut slices, trend chart series).
-export const CHART_CATEGORICAL_COLORS = [
-  CHART_SERIES_COLORS[0],
-  CHART_SERIES_COLORS[4],
-  CHART_SERIES_COLORS[2],
-  CHART_SERIES_COLORS[1],
-  CHART_SERIES_COLORS[3],
-] as const;
-
 export const CHART_EMPHASIS_COLOR = CHART_SERIES_COLORS[0];
-// The widest-spaced pair in the ramp (chart-1 vs chart-5), for the
-// "emphasis" form: one highlighted series against a de-emphasized rest.
-export const CHART_MUTED_COLOR = CHART_SERIES_COLORS[4];
+export const CHART_MUTED_COLOR = "var(--chart-muted)";
 
 export const ALL_MONTHS_FILTER_ITEM = {
   label: "All available months",
