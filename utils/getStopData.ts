@@ -25,7 +25,7 @@ export default async function getStopData(dates: YearMonth[]) {
 
       if (!response.ok) {
         throw new Error(
-          `Could not fetch stop data for month = ${date}, status = ${response.status}, url = ${response.url}`
+          `[getStopData] Could not fetch stop data for month = ${date}, status = ${response.status}, url = ${response.url}`
         );
       }
 

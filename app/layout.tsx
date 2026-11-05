@@ -1,24 +1,9 @@
-import { Inter, Merriweather, JetBrains_Mono } from "next/font/google";
 import type { Metadata } from "next";
 
 import "./globals.css";
 import AppProviders from "@/features/Providers/Components/Providers";
 import DashboardSideBar from "@/features/ApplicationSidebar/components/Sidebar";
-
-const fontSans = Inter({
-  subsets: ["latin"],
-  variable: "--font-sans",
-});
-
-const fontSerif = Merriweather({
-  subsets: ["latin"],
-  variable: "--font-serif",
-});
-
-const fontMono = JetBrains_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-});
+import { fontVariables } from "@/lib/fonts";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -32,9 +17,7 @@ export default async function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${fontSans.variable} ${fontSerif.variable} ${fontMono.variable} antialiased`}
-      >
+      <body className={`${fontVariables} antialiased`}>
         <AppProviders>
           <DashboardSideBar>
             <div className="mx-auto w-full max-w-screen-2xl p-4 sm:p-6 lg:p-8">

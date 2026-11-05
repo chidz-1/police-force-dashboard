@@ -8,6 +8,8 @@ export const API_RATE_LIMIT_RETRY_DELAY = 1000; // ms
 export const API_RATE_LIMIT_MAX_RETRIES = 4;
 
 export const GLOBAL_ALL_FILTER_VALUE = "all";
+export const ERROR_STATE_DESCRIPTION =
+  "The police data couldn't be loaded. This is usually temporary, so please try refreshing.";
 export const NOT_RECORDED_LABEL = "Not recorded";
 
 export const MAP_TILE_URL = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
