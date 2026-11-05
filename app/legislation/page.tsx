@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { LegislationPageSearchParams } from "@/features/Legislation/types";
 import LegislationVisualizations from "@/features/Legislation/components/LegislationVisualizations";
+
+export const metadata: Metadata = {
+  title: "Legislation",
+};
 
 async function LegislationPage({
   searchParams,

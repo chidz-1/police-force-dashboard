@@ -1,8 +1,14 @@
+import type { Metadata } from "next";
+
 import { getForceFriendlyLabel } from "@/utils/getForce";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { OverviewPageSearchParams } from "@/features/Overview/types";
 import OverviewVisualizations from "@/features/Overview/components/OverviewVisualizations";
+
+export const metadata: Metadata = {
+  title: { absolute: "Overview | StopWatch" },
+};
 
 async function OverviewPage({
   searchParams,

@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { LocationsPageSearchParams } from "@/features/Locations/types";
 import LocationsVisualizations from "@/features/Locations/components/LocationsVisualizations";
+
+export const metadata: Metadata = {
+  title: "Locations",
+};
 
 async function LocationsPage({
   searchParams,

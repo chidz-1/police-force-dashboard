@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { DemographicsPageSearchParams } from "@/features/Demographics/types";
 import DemographicsVisualizations from "@/features/Demographics/components/DemographicsVisualizations";
+
+export const metadata: Metadata = {
+  title: "Demographics",
+};
 
 async function DemographicsPage({
   searchParams,

@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { OutcomesPageSearchParams } from "@/features/Outcomes/types";
 import OutcomesVisualizations from "@/features/Outcomes/components/OutcomesVisualizations";
+
+export const metadata: Metadata = {
+  title: "Outcomes",
+};
 
 async function OutcomesPage({
   searchParams,

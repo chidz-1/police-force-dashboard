@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { SearchTypesPageSearchParams } from "@/features/SearchTypes/types";
 import SearchTypesVisualizations from "@/features/SearchTypes/components/SearchTypesVisualizations";
+
+export const metadata: Metadata = {
+  title: "Search Types",
+};
 
 async function SearchTypesPage({
   searchParams,

@@ -1,7 +1,13 @@
+import type { Metadata } from "next";
+
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { TimePatternsPageSearchParams } from "@/features/TimePatterns/types";
 import TimePatternsVisualizations from "@/features/TimePatterns/components/TimePatternsVisualizations";
+
+export const metadata: Metadata = {
+  title: "Time Patterns",
+};
 
 async function TimePatternsPage({
   searchParams,
