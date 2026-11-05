@@ -34,6 +34,9 @@ async function DemographicsVisualizations({
   monthFilterMenuItems,
   monthRange,
 }: DemographicsVisualizationsProps) {
+  // Must stay above searchParams so the data is captured at build time
+  const stopData = await getStopData(monthRange);
+
   const {
     date = monthFilterMenuItems[0].value,
     gender = DEMOGRAPHICS_FILTER_ITEMS.gender[0].label,
@@ -42,7 +45,6 @@ async function DemographicsVisualizations({
       .officer_defined_ethnicity[0].label,
   } = await searchParams;
 
-  const stopData = await getStopData(monthRange);
   const rawStopData = getRawStopData(stopData, date);
 
   const dataBuilder = new DemographicsPageBuilder(rawStopData, {

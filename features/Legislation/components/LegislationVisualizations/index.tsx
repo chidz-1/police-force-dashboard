@@ -33,6 +33,9 @@ async function LegislationVisualizations({
   monthFilterMenuItems,
   monthRange,
 }: LegislationVisualizationsProps) {
+  // Must stay above searchParams so the data is captured at build time
+  const stopData = await getStopData(monthRange);
+
   const {
     date = monthFilterMenuItems[0].value,
     legislation = LEGISLATION_PAGE_FILTER_ITEMS.legislation[0].label,
@@ -40,7 +43,6 @@ async function LegislationVisualizations({
     type = LEGISLATION_PAGE_FILTER_ITEMS.type[0].label,
   } = await searchParams;
 
-  const stopData = await getStopData(monthRange);
   const rawStopData = getRawStopData(stopData, date);
 
   const dataBuilder = new LegislationPageBuilder(rawStopData, {

@@ -36,6 +36,9 @@ async function OutcomesVisualizations({
   monthFilterMenuItems,
   monthRange,
 }: OutcomesVisualizationsProps) {
+  // Must stay above searchParams so the data is captured at build time
+  const stopData = await getStopData(monthRange);
+
   const {
     date = monthFilterMenuItems[0].value,
     outcome = OUTCOMES_FILTER_ITEMS.outcome[0].label,
@@ -44,7 +47,6 @@ async function OutcomesVisualizations({
       .officer_defined_ethnicity[0].label,
   } = await searchParams;
 
-  const stopData = await getStopData(monthRange);
   const rawStopData = getRawStopData(stopData, date);
 
   const dataBuilder = new OutcomesPageBuilder(rawStopData, {

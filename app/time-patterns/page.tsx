@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 
+import DataUnavailable from "@/components/DataUnavailable";
 import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { TimePatternsPageSearchParams } from "@/features/TimePatterns/types";
@@ -18,7 +19,7 @@ async function TimePatternsPage({
   const availableMonthRange = await getAvailability();
 
   if (!availableMonthRange.length) {
-    return <h1>TODO: Component for unavailable data for visualizations</h1>;
+    return <DataUnavailable />;
   }
 
   const monthFilterMenuItems = getMonthFilterItems(availableMonthRange);

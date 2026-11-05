@@ -11,7 +11,7 @@ import { MAX_AVAILABILITY_MONTH_RANGE } from "@/constants";
 export async function fetchAvailability(): Promise<AvailabilityHash> {
   "use cache";
   cacheTag("schema:availability");
-  cacheLife("max");
+  cacheLife("days");
 
   const response = await fetchWithRetry(
     `${process.env.NEXT_PUBLIC_STOP_AND_SEARCH_API}/crimes-street-dates`
@@ -28,7 +28,7 @@ export async function fetchAvailability(): Promise<AvailabilityHash> {
 export async function getAvailability(): Promise<YearMonth[]> {
   "use cache";
   cacheTag("schema:availability");
-  cacheLife("max");
+  cacheLife("days");
 
   const availabilityEntries = await fetchAvailability();
   const dateKeys = Object.keys(availabilityEntries);

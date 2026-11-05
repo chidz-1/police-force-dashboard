@@ -6,6 +6,7 @@ export interface ErrorPageProps {
 export interface ErrorStateProps {
   title: string;
   description?: string;
-  retry: () => void;
+  retry?: () => void;
+  icon?: React.ReactNode;
   className?: string;
 }

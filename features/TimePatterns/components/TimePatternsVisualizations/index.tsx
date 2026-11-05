@@ -31,6 +31,9 @@ async function TimePatternsVisualizations({
   monthFilterMenuItems,
   monthRange,
 }: TimePatternsVisualizationsProps) {
+  // Must stay above searchParams so the data is captured at build time
+  const stopData = await getStopData(monthRange);
+
   const {
     date = monthFilterMenuItems[0].value,
     type = TIME_PATTERNS_FILTER_ITEMS.type[0].label,
@@ -38,7 +41,6 @@ async function TimePatternsVisualizations({
     outcome = TIME_PATTERNS_FILTER_ITEMS.outcome[0].label,
   } = await searchParams;
 
-  const stopData = await getStopData(monthRange);
   const rawStopData = getRawStopData(stopData, date);
 
   const dataBuilder = new TimePatternsPageBuilder(rawStopData, {

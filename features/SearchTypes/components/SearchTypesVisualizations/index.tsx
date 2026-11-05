@@ -34,6 +34,9 @@ async function SearchTypesVisualizations({
   monthFilterMenuItems,
   monthRange,
 }: SearchTypesVisualizationsProps) {
+  // Must stay above searchParams so the data is captured at build time
+  const stopData = await getStopData(monthRange);
+
   const {
     date = monthFilterMenuItems[0].value,
     type = SEARCH_TYPES_FILTER_ITEMS.type[0].label,
@@ -41,7 +44,6 @@ async function SearchTypesVisualizations({
     outcome = SEARCH_TYPES_FILTER_ITEMS.outcome[0].label,
   } = await searchParams;
 
-  const stopData = await getStopData(monthRange);
   const rawStopData = getRawStopData(stopData, date);
 
   const dataBuilder = new SearchTypesPageBuilder(rawStopData, {

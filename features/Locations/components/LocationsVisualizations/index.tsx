@@ -23,6 +23,9 @@ async function LocationsVisualizations({
   monthFilterMenuItems,
   monthRange,
 }: LocationsVisualizationsProps) {
+  // Must stay above searchParams so the data is captured at build time
+  const stopData = await getStopData(monthRange);
+
   const {
     date = monthFilterMenuItems[0].value,
     type = LOCATIONS_FILTER_ITEMS.type[0].label,
@@ -30,7 +33,6 @@ async function LocationsVisualizations({
     outcome = LOCATIONS_FILTER_ITEMS.outcome[0].label,
   } = await searchParams;
 
-  const stopData = await getStopData(monthRange);
   const rawStopData = getRawStopData(stopData, date);
 
   const dataBuilder = new LocationsPageBuilder(rawStopData, {
