@@ -4,7 +4,11 @@ import { useTransition } from "react";
 import { RefreshCw, TriangleAlert } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
-import { CARD_ICON_CHIP_CLASSNAME, ERROR_STATE_DESCRIPTION } from "@/constants";
+import {
+  CARD_ICON_CHIP_CLASSNAME,
+  ERROR_STATE_DESCRIPTION,
+  STATUS_PAGE_CLASSNAME,
+} from "@/constants";
 import { cn } from "cn";
 import { ErrorStateProps } from "./types";
 
@@ -17,13 +21,7 @@ export default function ErrorState({
   const [isRetrying, startRetry] = useTransition();
 
   return (
-    <div
-      role="alert"
-      className={cn(
-        "flex min-h-[calc(100svh-8rem)] flex-col items-center justify-center gap-4 text-center",
-        className
-      )}
-    >
+    <div role="alert" className={cn(STATUS_PAGE_CLASSNAME, className)}>
       <span className={cn(CARD_ICON_CHIP_CLASSNAME, "size-12")}>
         <TriangleAlert className="size-6" />
       </span>
