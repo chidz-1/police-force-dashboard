@@ -1,4 +1,4 @@
-import { API_KNOWN_BURST_LIMIT, API_BURST_MITIGATION_DELAY } from "@/constants";
+import { API_BURST_MITIGATION_DELAY } from "@/constants";
 
 function burstLimitDelay(delayInMs: number) {
   return new Promise((res) => setTimeout(res, delayInMs));
@@ -19,6 +19,14 @@ const months = [
   "2025-10",
   "2025-09",
 ];
+
+// fetch availability
+const startForAvailability = Date.now();
+const response = await fetch(`https://data.police.uk/api/crimes-street-dates`);
+
+console.log(
+  `[Availability] ${startForAvailability} ${response.status} retry-after=${response.headers.get("retry-after")} t=${Date.now() - startForAvailability}ms`
+);
 
 const start = Date.now();
 const results = await Promise.all(

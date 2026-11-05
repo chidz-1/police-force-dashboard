@@ -3,7 +3,9 @@ import { StopAndSearchType } from "@/types/stop-and-search";
 
 export const MAX_AVAILABILITY_MONTH_RANGE = 12;
 export const API_KNOWN_BURST_LIMIT = 3;
-export const API_BURST_MITIGATION_DELAY = 300; // ms
+export const API_BURST_MITIGATION_DELAY = 500; // ms
+export const API_RATE_LIMIT_RETRY_DELAY = 1000; // ms
+export const API_RATE_LIMIT_MAX_RETRIES = 4;
 
 export const GLOBAL_ALL_FILTER_VALUE = "all";
 export const NOT_RECORDED_LABEL = "Not recorded";

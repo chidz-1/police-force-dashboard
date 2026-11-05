@@ -4,6 +4,7 @@ import {
   YearMonth,
 } from "@/types/crimes-street-dates";
 import { cacheLife, cacheTag } from "next/cache";
+import fetchWithRetry from "./fetchWithRetry";
 import { getForceId } from "./getForce";
 import { MAX_AVAILABILITY_MONTH_RANGE } from "@/constants";
 
@@ -12,7 +13,7 @@ export async function fetchAvailability(): Promise<AvailabilityHash> {
   cacheTag("schema:availability");
   cacheLife("max");
 
-  const response = await fetch(
+  const response = await fetchWithRetry(
     `${process.env.NEXT_PUBLIC_STOP_AND_SEARCH_API}/crimes-street-dates`
   );
 

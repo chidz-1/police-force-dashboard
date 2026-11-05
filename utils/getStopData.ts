@@ -5,12 +5,10 @@ import {
   StopAndSearchDatesRecord,
   stopsForceResponseSchema,
 } from "@/types/stop-and-search";
+import fetchWithRetry from "./fetchWithRetry";
 import { getForceId } from "./getForce";
+import wait from "./wait";
 import { API_BURST_MITIGATION_DELAY } from "@/constants";
-
-function burstLimitDelay(delayInMs: number) {
-  return new Promise((res) => setTimeout(res, delayInMs));
-}
 
 export default async function getStopData(dates: YearMonth[]) {
   "use cache";
@@ -19,9 +17,9 @@ export default async function getStopData(dates: YearMonth[]) {
 
   const stopDataCollection = await Promise.all(
     dates.map(async (date, phaseIndex) => {
-      await burstLimitDelay(phaseIndex * API_BURST_MITIGATION_DELAY);
+      await wait(phaseIndex * API_BURST_MITIGATION_DELAY);
 
-      const response = await fetch(
+      const response = await fetchWithRetry(
         `${process.env.NEXT_PUBLIC_STOP_AND_SEARCH_API}/stops-force?force=${getForceId()}&date=${date}`
       );
 
