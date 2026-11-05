@@ -4,6 +4,7 @@ import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { TimePatternsPageSearchParams } from "@/features/TimePatterns/types";
 import TimePatternsVisualizations from "@/features/TimePatterns/components/TimePatternsVisualizations";
+import TimePatternsVisualizationsFallback from "@/features/TimePatterns/components/TimePatternsVisualizationsFallback";
 
 export const metadata: Metadata = {
   title: "Time Patterns",
@@ -33,7 +34,7 @@ async function TimePatternsPage({
         monthRange={availableMonthRange}
         searchParams={searchParams}
         monthFilterMenuItems={monthFilterMenuItems}
-        fallback={<h1 className="text-5xl">LOADING</h1>}
+        fallback={<TimePatternsVisualizationsFallback />}
       />
     </>
   );

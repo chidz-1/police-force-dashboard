@@ -4,6 +4,7 @@ import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { LocationsPageSearchParams } from "@/features/Locations/types";
 import LocationsVisualizations from "@/features/Locations/components/LocationsVisualizations";
+import LocationsVisualizationsFallback from "@/features/Locations/components/LocationsVisualizationsFallback";
 
 export const metadata: Metadata = {
   title: "Locations",
@@ -34,7 +35,7 @@ async function LocationsPage({
         monthRange={availableMonthRange}
         searchParams={searchParams}
         monthFilterMenuItems={monthFilterMenuItems}
-        fallback={<h1 className="text-5xl">LOADING</h1>}
+        fallback={<LocationsVisualizationsFallback />}
       />
     </>
   );

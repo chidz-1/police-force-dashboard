@@ -4,6 +4,7 @@ import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { LegislationPageSearchParams } from "@/features/Legislation/types";
 import LegislationVisualizations from "@/features/Legislation/components/LegislationVisualizations";
+import LegislationVisualizationsFallback from "@/features/Legislation/components/LegislationVisualizationsFallback";
 
 export const metadata: Metadata = {
   title: "Legislation",
@@ -34,7 +35,7 @@ async function LegislationPage({
         monthRange={availableMonthRange}
         searchParams={searchParams}
         monthFilterMenuItems={monthFilterMenuItems}
-        fallback={<h1 className="text-5xl">LOADING</h1>}
+        fallback={<LegislationVisualizationsFallback />}
       />
     </>
   );

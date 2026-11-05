@@ -4,6 +4,7 @@ import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { DemographicsPageSearchParams } from "@/features/Demographics/types";
 import DemographicsVisualizations from "@/features/Demographics/components/DemographicsVisualizations";
+import DemographicsVisualizationsFallback from "@/features/Demographics/components/DemographicsVisualizationsFallback";
 
 export const metadata: Metadata = {
   title: "Demographics",
@@ -34,7 +35,7 @@ async function DemographicsPage({
         monthRange={availableMonthRange}
         searchParams={searchParams}
         monthFilterMenuItems={monthFilterMenuItems}
-        fallback={<h1 className="text-5xl">LOADING</h1>}
+        fallback={<DemographicsVisualizationsFallback />}
       />
     </>
   );

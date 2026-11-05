@@ -5,6 +5,7 @@ import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { OverviewPageSearchParams } from "@/features/Overview/types";
 import OverviewVisualizations from "@/features/Overview/components/OverviewVisualizations";
+import OverviewVisualizationsFallback from "@/features/Overview/components/OverviewVisualizationsFallback";
 
 export const metadata: Metadata = {
   title: { absolute: "Overview | StopWatch" },
@@ -34,7 +35,7 @@ async function OverviewPage({
         monthRange={availableMonthRange}
         searchParams={searchParams}
         monthFilterMenuItems={monthFilterMenuItems}
-        fallback={<h1 className="text-5xl">LOADING</h1>}
+        fallback={<OverviewVisualizationsFallback />}
       />
     </>
   );

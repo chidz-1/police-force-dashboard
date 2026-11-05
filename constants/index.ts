@@ -79,6 +79,8 @@ export const ALL_MONTHS_FILTER_ITEM = {
   value: "all",
 };
 
+export const PAGE_FILTER_DEFAULT_WIDTH = "w-40";
+
 export const PAGE_FILTER_WIDTHS = {
   type: "w-48",
   gender: "w-30",

@@ -13,13 +13,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import { PAGE_FILTER_DEFAULT_WIDTH } from "@/constants";
 import { useFilterChange } from "@/features/Providers/hooks/useFilterChange";
 
 function PageFilters({
   value,
   menuItems,
   urlParamKey,
-  width = "w-40",
+  width = PAGE_FILTER_DEFAULT_WIDTH,
 }: PageFiltersProps) {
   const router = useRouter();
   const pathname = usePathname();

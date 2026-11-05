@@ -4,6 +4,7 @@ import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { OutcomesPageSearchParams } from "@/features/Outcomes/types";
 import OutcomesVisualizations from "@/features/Outcomes/components/OutcomesVisualizations";
+import OutcomesVisualizationsFallback from "@/features/Outcomes/components/OutcomesVisualizationsFallback";
 
 export const metadata: Metadata = {
   title: "Outcomes",
@@ -34,7 +35,7 @@ async function OutcomesPage({
         monthRange={availableMonthRange}
         searchParams={searchParams}
         monthFilterMenuItems={monthFilterMenuItems}
-        fallback={<h1 className="text-5xl">LOADING</h1>}
+        fallback={<OutcomesVisualizationsFallback />}
       />
     </>
   );

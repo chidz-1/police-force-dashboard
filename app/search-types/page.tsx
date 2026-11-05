@@ -4,6 +4,7 @@ import getMonthFilterItems from "@/utils/getMonthFilterItems";
 import { getAvailability } from "@/utils/stopAvailability";
 import { SearchTypesPageSearchParams } from "@/features/SearchTypes/types";
 import SearchTypesVisualizations from "@/features/SearchTypes/components/SearchTypesVisualizations";
+import SearchTypesVisualizationsFallback from "@/features/SearchTypes/components/SearchTypesVisualizationsFallback";
 
 export const metadata: Metadata = {
   title: "Search Types",
@@ -34,7 +35,7 @@ async function SearchTypesPage({
         monthRange={availableMonthRange}
         searchParams={searchParams}
         monthFilterMenuItems={monthFilterMenuItems}
-        fallback={<h1 className="text-5xl">LOADING</h1>}
+        fallback={<SearchTypesVisualizationsFallback />}
       />
     </>
   );
