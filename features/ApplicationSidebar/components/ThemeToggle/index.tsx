@@ -8,13 +8,15 @@ import { Toggle } from "@/components/ui/toggle";
 import { ThemeToggleProps } from "./types";
 
 export default function ThemeToggle({ className }: ThemeToggleProps) {
-  const { theme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
 
   return (
     <Toggle
       className={cn(className)}
       aria-label="Toggle theme"
-      onPressedChange={() => setTheme(theme === "dark" ? "light" : "dark")}
+      onPressedChange={() =>
+        setTheme(resolvedTheme === "dark" ? "light" : "dark")
+      }
     >
       <MoonIcon className="dark:hidden" />
       <SunIcon className="hidden dark:block" />
