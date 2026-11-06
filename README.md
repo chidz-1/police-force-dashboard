@@ -10,8 +10,8 @@ This application aims to provide a dashboard that visualizes publicly available 
 
 ## Run only 
 
-- docker pull YOUR_DOCKERHUB_USERNAME/police-force-dashboard:latest
-- docker run --rm -p <chosen_forwarding_port>:3000 YOUR_DOCKERHUB_USERNAME/police-force-dashboard:latest
+- docker pull chiedu/police-force-dashboard:latest
+- docker run --rm -p <chosen_forwarding_port>:3000 chiedu/police-force-dashboard:latest
 - Open http://localhost:<chosen_forwarding_port>
 
 ## Build & Run
