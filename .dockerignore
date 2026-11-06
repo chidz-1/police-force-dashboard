@@ -1,0 +1,13 @@
+.git
+.gitignore
+.next
+node_modules
+.env*
+.claude
+.vscode
+context
+scripts
+*.md
+Dockerfile
+.dockerignore
+tsconfig.tsbuildinfo
