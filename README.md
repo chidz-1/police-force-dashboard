@@ -2,6 +2,7 @@
 
 This application aims to provide a dashboard that visualizes publicly available police force stop and search data. The data is sourced from a public API and the stop and search data is limited to one UK police force.
 
+- Public URL = https://police-force-dashboard.vercel.app/
 - Source data API =  https://data.police.uk/
 
 ## How to run the application locally 
